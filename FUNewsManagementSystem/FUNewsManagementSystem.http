@@ -1,0 +1,202 @@
+@baseUrl = http://localhost:8080/api
+@contentType = application/json
+
+### ============================================
+### CATEGORIES ENDPOINTS
+### ============================================
+
+### Get all categories
+GET {{baseUrl}}/categories
+Accept: {{contentType}}
+
+### Get active categories
+GET {{baseUrl}}/categories/active
+Accept: {{contentType}}
+
+### Get category by ID
+GET {{baseUrl}}/categories/1
+Accept: {{contentType}}
+
+### Search categories
+GET {{baseUrl}}/categories/search?name=Technology&isActive=true
+Accept: {{contentType}}
+
+### Create category (Root Category)
+POST {{baseUrl}}/categories
+Content-Type: {{contentType}}
+
+{
+  "categoryName": "Technology",
+  "categoryDesciption": "Technology and IT news",
+  "parentCategoryId": null,
+  "isActive": true
+}
+
+### Create sub-category
+POST {{baseUrl}}/categories
+Content-Type: {{contentType}}
+
+{
+  "categoryName": "Programming",
+  "categoryDesciption": "Programming languages and frameworks",
+  "parentCategoryId": 1,
+  "isActive": true
+}
+
+### Update category
+PUT {{baseUrl}}/categories/1
+Content-Type: {{contentType}}
+
+{
+  "categoryId": 1,
+  "categoryName": "Tech News",
+  "categoryDesciption": "Latest technology news",
+  "parentCategoryId": null,
+  "isActive": true
+}
+
+### Delete category
+DELETE {{baseUrl}}/categories/1
+
+### ============================================
+### NEWS ARTICLES ENDPOINTS
+### ============================================
+
+### Get all active news
+GET {{baseUrl}}/newsarticles
+Accept: {{contentType}}
+
+### Get all news (admin)
+GET {{baseUrl}}/newsarticles/all
+Accept: {{contentType}}
+
+### Get news by ID
+GET {{baseUrl}}/newsarticles/1
+Accept: {{contentType}}
+
+### Get my news
+GET {{baseUrl}}/newsarticles/mynews
+Accept: {{contentType}}
+
+### Get news by date range
+GET {{baseUrl}}/newsarticles/report?startDate=2024-01-01&endDate=2024-12-31
+Accept: {{contentType}}
+
+### Search news
+GET {{baseUrl}}/newsarticles/search?title=ai&categoryId=1&status=true
+Accept: {{contentType}}
+
+### Create news article
+POST {{baseUrl}}/newsarticles
+Content-Type: {{contentType}}
+
+{
+  "newsArticleId": "news-001",
+  "newsTitle": "AI Revolution in 2024",
+  "headline": "Artificial Intelligence transforming industries",
+  "newsContent": "In-depth analysis of AI impact on modern business...",
+  "newsSource": "TechNews Daily",
+  "categoryId": 1,
+  "newsStatus": true,
+  "tagIds": [1, 2]
+}
+
+### Update news article
+PUT {{baseUrl}}/newsarticles/news-001
+Content-Type: {{contentType}}
+
+{
+  "newsArticleId": "news-001",
+  "newsTitle": "AI Revolution in 2024 (Updated)",
+  "headline": "Artificial Intelligence transforming industries worldwide",
+  "newsContent": "Updated in-depth analysis...",
+  "newsSource": "TechNews Daily",
+  "categoryId": 1,
+  "newsStatus": true,
+  "tagIds": [1, 2, 3]
+}
+
+### Delete news article
+DELETE {{baseUrl}}/newsarticles/news-001
+
+### ============================================
+### SYSTEM ACCOUNTS ENDPOINTS
+### ============================================
+
+### Get all accounts
+GET {{baseUrl}}/systemaccounts
+Accept: {{contentType}}
+
+### Get account by ID
+GET {{baseUrl}}/systemaccounts/1
+Accept: {{contentType}}
+
+### Get account by email
+GET {{baseUrl}}/systemaccounts/email?email=admin@example.com
+Accept: {{contentType}}
+
+### Search accounts
+GET {{baseUrl}}/systemaccounts/search?name=admin&email=&role=1
+Accept: {{contentType}}
+
+### Create account
+POST {{baseUrl}}/systemaccounts
+Content-Type: {{contentType}}
+
+{
+  "accountName": "John Doe",
+  "accountEmail": "john@example.com",
+  "accountPassword": "SecurePass123!",
+  "accountRole": 2,
+  "isActive": true
+}
+
+### Update account
+PUT {{baseUrl}}/systemaccounts/1
+Content-Type: {{contentType}}
+
+{
+  "accountId": 1,
+  "accountName": "John Smith",
+  "accountEmail": "john.smith@example.com",
+  "accountPassword": "NewPass123!",
+  "accountRole": 2,
+  "isActive": true
+}
+
+### Delete account
+DELETE {{baseUrl}}/systemaccounts/1
+
+### ============================================
+### AUTH ENDPOINTS
+### ============================================
+
+### Login
+POST {{baseUrl}}/auth/login
+Content-Type: {{contentType}}
+
+{
+  "email": "admin@example.com",
+  "password": "admin123"
+}
+
+### ============================================
+### NOTES
+### ============================================
+# To use this file:
+# 1. Install REST Client extension in VS Code
+# 2. Click "Send Request" above each request
+# 3. Results will appear in a new panel
+#
+# Variables:
+# - {{baseUrl}} = http://localhost:8080/api
+# - {{contentType}} = application/json
+#
+# Status codes:
+# - 200 OK: Success
+# - 201 Created: Resource created
+# - 204 No Content: Success with no response body
+# - 400 Bad Request: Invalid input
+# - 404 Not Found: Resource not found
+# - 500 Internal Server Error: Server error
+

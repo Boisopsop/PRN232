@@ -1,0 +1,43 @@
+services:
+  dockerdb:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: funews-sqlserver
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=YourStrong@Passw0rd
+      - MSSQL_PID=Express
+    ports:
+      - "1434:1433"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+    networks:
+      - funews-network
+
+  api:
+    build:
+      context: .
+      dockerfile: FUNewsManagementSystem/Dockerfile
+    container_name: funews-api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__DefaultConnectionString=Server=dockerdb;Database=FUNewsManagement;User ID=sa;Password=YourStrong@Passw0rd;TrustServerCertificate=True;Encrypt=false
+      - Jwt__Key=YourSuperSecretKeyForJWTTokenGeneration12345
+      - Jwt__Issuer=FUNewsManagementSystem
+      - Jwt__Audience=FUNewsManagementSystemUsers
+      - Jwt__ExpireMinutes=60
+      - AdminAccount__Email=admin@FUNewsManagementSystem.org
+      - AdminAccount__Password=@@abc123@@
+    ports:
+      - "8080:8080"
+    depends_on:
+      - dockerdb
+    networks:
+      - funews-network
+
+volumes:
+  sqlserver_data:
+
+networks:
+  funews-network:
+    driver: bridge

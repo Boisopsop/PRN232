@@ -1,0 +1,529 @@
+{
+  "info": {
+    "_postman_id": "funews-collection-001",
+    "name": "FU News Management System",
+    "description": "Complete API collection for News Management System",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Categories",
+      "item": [
+        {
+          "name": "Get All Categories",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/categories",
+              "host": ["{{baseUrl}}"],
+              "path": ["categories"]
+            }
+          }
+        },
+        {
+          "name": "Get Active Categories",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/categories/active",
+              "host": ["{{baseUrl}}"],
+              "path": ["categories", "active"]
+            }
+          }
+        },
+        {
+          "name": "Get Category by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/categories/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["categories", "1"]
+            }
+          }
+        },
+        {
+          "name": "Search Categories",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/categories/search?name=Technology&isActive=true",
+              "host": ["{{baseUrl}}"],
+              "path": ["categories", "search"],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "Technology"
+                },
+                {
+                  "key": "isActive",
+                  "value": "true"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Category (Root)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"categoryName\": \"Technology\",\n  \"categoryDesciption\": \"Technology and IT news\",\n  \"parentCategoryId\": null,\n  \"isActive\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/categories",
+              "host": ["{{baseUrl}}"],
+              "path": ["categories"]
+            }
+          }
+        },
+        {
+          "name": "Create Sub-Category",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"categoryName\": \"Programming\",\n  \"categoryDesciption\": \"Programming languages and frameworks\",\n  \"parentCategoryId\": 1,\n  \"isActive\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/categories",
+              "host": ["{{baseUrl}}"],
+              "path": ["categories"]
+            }
+          }
+        },
+        {
+          "name": "Update Category",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"categoryId\": 1,\n  \"categoryName\": \"Tech News\",\n  \"categoryDesciption\": \"Latest technology news\",\n  \"parentCategoryId\": null,\n  \"isActive\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/categories/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["categories", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete Category",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/categories/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["categories", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "News Articles",
+      "item": [
+        {
+          "name": "Get All Active News",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/newsarticles",
+              "host": ["{{baseUrl}}"],
+              "path": ["newsarticles"]
+            }
+          }
+        },
+        {
+          "name": "Get All News",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/newsarticles/all",
+              "host": ["{{baseUrl}}"],
+              "path": ["newsarticles", "all"]
+            }
+          }
+        },
+        {
+          "name": "Get News by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/newsarticles/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["newsarticles", "1"]
+            }
+          }
+        },
+        {
+          "name": "Get My News",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/newsarticles/mynews",
+              "host": ["{{baseUrl}}"],
+              "path": ["newsarticles", "mynews"]
+            }
+          }
+        },
+        {
+          "name": "Get News by Date Range",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/newsarticles/report?startDate=2024-01-01&endDate=2024-12-31",
+              "host": ["{{baseUrl}}"],
+              "path": ["newsarticles", "report"],
+              "query": [
+                {
+                  "key": "startDate",
+                  "value": "2024-01-01"
+                },
+                {
+                  "key": "endDate",
+                  "value": "2024-12-31"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Search News",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/newsarticles/search?title=ai&categoryId=1&status=true",
+              "host": ["{{baseUrl}}"],
+              "path": ["newsarticles", "search"],
+              "query": [
+                {
+                  "key": "title",
+                  "value": "ai"
+                },
+                {
+                  "key": "categoryId",
+                  "value": "1"
+                },
+                {
+                  "key": "status",
+                  "value": "true"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create News Article",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"newsArticleId\": \"news-001\",\n  \"newsTitle\": \"AI Revolution in 2024\",\n  \"headline\": \"Artificial Intelligence transforming industries\",\n  \"newsContent\": \"In-depth analysis of AI impact on modern business...\",\n  \"newsSource\": \"TechNews Daily\",\n  \"categoryId\": 1,\n  \"newsStatus\": true,\n  \"tagIds\": [1, 2]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/newsarticles",
+              "host": ["{{baseUrl}}"],
+              "path": ["newsarticles"]
+            }
+          }
+        },
+        {
+          "name": "Update News Article",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"newsArticleId\": \"news-001\",\n  \"newsTitle\": \"AI Revolution in 2024 (Updated)\",\n  \"headline\": \"Artificial Intelligence transforming industries worldwide\",\n  \"newsContent\": \"Updated in-depth analysis...\",\n  \"newsSource\": \"TechNews Daily\",\n  \"categoryId\": 1,\n  \"newsStatus\": true,\n  \"tagIds\": [1, 2, 3]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/newsarticles/news-001",
+              "host": ["{{baseUrl}}"],
+              "path": ["newsarticles", "news-001"]
+            }
+          }
+        },
+        {
+          "name": "Delete News Article",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/newsarticles/news-001",
+              "host": ["{{baseUrl}}"],
+              "path": ["newsarticles", "news-001"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "System Accounts",
+      "item": [
+        {
+          "name": "Get All Accounts",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/systemaccounts",
+              "host": ["{{baseUrl}}"],
+              "path": ["systemaccounts"]
+            }
+          }
+        },
+        {
+          "name": "Get Account by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/systemaccounts/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["systemaccounts", "1"]
+            }
+          }
+        },
+        {
+          "name": "Get Account by Email",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/systemaccounts/email?email=admin@example.com",
+              "host": ["{{baseUrl}}"],
+              "path": ["systemaccounts", "email"],
+              "query": [
+                {
+                  "key": "email",
+                  "value": "admin@example.com"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Search Accounts",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/systemaccounts/search?name=admin&role=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["systemaccounts", "search"],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "admin"
+                },
+                {
+                  "key": "role",
+                  "value": "1"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Account",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"accountName\": \"John Doe\",\n  \"accountEmail\": \"john@example.com\",\n  \"accountPassword\": \"SecurePass123!\",\n  \"accountRole\": 2,\n  \"isActive\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/systemaccounts",
+              "host": ["{{baseUrl}}"],
+              "path": ["systemaccounts"]
+            }
+          }
+        },
+        {
+          "name": "Update Account",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"accountId\": 1,\n  \"accountName\": \"John Smith\",\n  \"accountEmail\": \"john.smith@example.com\",\n  \"accountPassword\": \"NewPass123!\",\n  \"accountRole\": 2,\n  \"isActive\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/systemaccounts/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["systemaccounts", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete Account",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/systemaccounts/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["systemaccounts", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"admin123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080/api",
+      "type": "string"
+    }
+  ]
+}

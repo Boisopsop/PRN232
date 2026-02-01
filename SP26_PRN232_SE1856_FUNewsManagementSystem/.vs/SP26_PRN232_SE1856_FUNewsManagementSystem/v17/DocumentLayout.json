@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{3572AE3F-994E-4289-9A56-F2069E664830}|PRN232.FUNewsManagementSystem.API\\PRN232.FUNewsManagementSystem.API.csproj|d:\\ki-13-fpt\\prn232 - lam huu khanh phuong\\lab2\\prn232\\sp26_prn232_se1856_funewsmanagementsystem\\prn232.funewsmanagementsystem.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3572AE3F-994E-4289-9A56-F2069E664830}|PRN232.FUNewsManagementSystem.API\\PRN232.FUNewsManagementSystem.API.csproj|solutionrelative:prn232.funewsmanagementsystem.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{3572AE3F-994E-4289-9A56-F2069E664830}|PRN232.FUNewsManagementSystem.API\\PRN232.FUNewsManagementSystem.API.csproj|d:\\ki-13-fpt\\prn232 - lam huu khanh phuong\\lab2\\prn232\\sp26_prn232_se1856_funewsmanagementsystem\\prn232.funewsmanagementsystem.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{3572AE3F-994E-4289-9A56-F2069E664830}|PRN232.FUNewsManagementSystem.API\\PRN232.FUNewsManagementSystem.API.csproj|solutionrelative:prn232.funewsmanagementsystem.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3572AE3F-994E-4289-9A56-F2069E664830}|PRN232.FUNewsManagementSystem.API\\PRN232.FUNewsManagementSystem.API.csproj|d:\\ki-13-fpt\\prn232 - lam huu khanh phuong\\lab2\\prn232\\sp26_prn232_se1856_funewsmanagementsystem\\prn232.funewsmanagementsystem.api\\controllers\\categoriescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3572AE3F-994E-4289-9A56-F2069E664830}|PRN232.FUNewsManagementSystem.API\\PRN232.FUNewsManagementSystem.API.csproj|solutionrelative:prn232.funewsmanagementsystem.api\\controllers\\categoriescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{3572AE3F-994E-4289-9A56-F2069E664830}|PRN232.FUNewsManagementSystem.API\\PRN232.FUNewsManagementSystem.API.csproj|d:\\ki-13-fpt\\prn232 - lam huu khanh phuong\\lab2\\prn232\\sp26_prn232_se1856_funewsmanagementsystem\\prn232.funewsmanagementsystem.api\\controllers\\tagscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -23,8 +23,8 @@
       "RelativeMoniker": "D:0:0:{3572AE3F-994E-4289-9A56-F2069E664830}|PRN232.FUNewsManagementSystem.API\\PRN232.FUNewsManagementSystem.API.csproj|solutionrelative:prn232.funewsmanagementsystem.api\\controllers\\newsarticlescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3572AE3F-994E-4289-9A56-F2069E664830}|PRN232.FUNewsManagementSystem.API\\PRN232.FUNewsManagementSystem.API.csproj|d:\\ki-13-fpt\\prn232 - lam huu khanh phuong\\lab2\\prn232\\sp26_prn232_se1856_funewsmanagementsystem\\prn232.funewsmanagementsystem.api\\controllers\\categoriescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3572AE3F-994E-4289-9A56-F2069E664830}|PRN232.FUNewsManagementSystem.API\\PRN232.FUNewsManagementSystem.API.csproj|solutionrelative:prn232.funewsmanagementsystem.api\\controllers\\categoriescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{3572AE3F-994E-4289-9A56-F2069E664830}|PRN232.FUNewsManagementSystem.API\\PRN232.FUNewsManagementSystem.API.csproj|d:\\ki-13-fpt\\prn232 - lam huu khanh phuong\\lab2\\prn232\\sp26_prn232_se1856_funewsmanagementsystem\\prn232.funewsmanagementsystem.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3572AE3F-994E-4289-9A56-F2069E664830}|PRN232.FUNewsManagementSystem.API\\PRN232.FUNewsManagementSystem.API.csproj|solutionrelative:prn232.funewsmanagementsystem.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{5DF925B6-31AA-4AA1-B1E1-ABD4A2799703}|PRN232.FUNewsManagementSystem.Repo\\PRN232.FUNewsManagementSystem.Repo.csproj|d:\\ki-13-fpt\\prn232 - lam huu khanh phuong\\lab2\\prn232\\sp26_prn232_se1856_funewsmanagementsystem\\prn232.funewsmanagementsystem.repo\\prn232.funewsmanagementsystem.repo.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
@@ -126,11 +126,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 5,
               "Title": "Program.cs",
               "DocumentMoniker": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.API\\Program.cs",
               "RelativeDocumentMoniker": "PRN232.FUNewsManagementSystem.API\\Program.cs",
@@ -143,13 +143,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "appsettings.json",
               "DocumentMoniker": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.API\\appsettings.json",
               "RelativeDocumentMoniker": "PRN232.FUNewsManagementSystem.API\\appsettings.json",
-              "ToolTip": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.API\\appsettings.json",
-              "RelativeToolTip": "PRN232.FUNewsManagementSystem.API\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAuAAAAAAAAAA==",
+              "ToolTip": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.API\\appsettings.json*",
+              "RelativeToolTip": "PRN232.FUNewsManagementSystem.API\\appsettings.json*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
               "WhenOpened": "2026-02-01T21:14:29.923Z",
               "EditorCaption": ""
@@ -195,7 +195,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 1,
               "Title": "CategoriesController.cs",
               "DocumentMoniker": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.API\\Controllers\\CategoriesController.cs",
               "RelativeDocumentMoniker": "PRN232.FUNewsManagementSystem.API\\Controllers\\CategoriesController.cs",

@@ -1,7 +1,124 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{3572AE3F-994E-4289-9A56-F2069E664830}|PRN232.FUNewsManagementSystem.API\\PRN232.FUNewsManagementSystem.API.csproj|d:\\ki-13-fpt\\prn232 - lam huu khanh phuong\\lab2\\prn232\\sp26_prn232_se1856_funewsmanagementsystem\\prn232.funewsmanagementsystem.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3572AE3F-994E-4289-9A56-F2069E664830}|PRN232.FUNewsManagementSystem.API\\PRN232.FUNewsManagementSystem.API.csproj|solutionrelative:prn232.funewsmanagementsystem.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3572AE3F-994E-4289-9A56-F2069E664830}|PRN232.FUNewsManagementSystem.API\\PRN232.FUNewsManagementSystem.API.csproj|d:\\ki-13-fpt\\prn232 - lam huu khanh phuong\\lab2\\prn232\\sp26_prn232_se1856_funewsmanagementsystem\\prn232.funewsmanagementsystem.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{3572AE3F-994E-4289-9A56-F2069E664830}|PRN232.FUNewsManagementSystem.API\\PRN232.FUNewsManagementSystem.API.csproj|solutionrelative:prn232.funewsmanagementsystem.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3572AE3F-994E-4289-9A56-F2069E664830}|PRN232.FUNewsManagementSystem.API\\PRN232.FUNewsManagementSystem.API.csproj|d:\\ki-13-fpt\\prn232 - lam huu khanh phuong\\lab2\\prn232\\sp26_prn232_se1856_funewsmanagementsystem\\prn232.funewsmanagementsystem.api\\controllers\\tagscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3572AE3F-994E-4289-9A56-F2069E664830}|PRN232.FUNewsManagementSystem.API\\PRN232.FUNewsManagementSystem.API.csproj|solutionrelative:prn232.funewsmanagementsystem.api\\controllers\\tagscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3572AE3F-994E-4289-9A56-F2069E664830}|PRN232.FUNewsManagementSystem.API\\PRN232.FUNewsManagementSystem.API.csproj|d:\\ki-13-fpt\\prn232 - lam huu khanh phuong\\lab2\\prn232\\sp26_prn232_se1856_funewsmanagementsystem\\prn232.funewsmanagementsystem.api\\controllers\\systemaccountscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3572AE3F-994E-4289-9A56-F2069E664830}|PRN232.FUNewsManagementSystem.API\\PRN232.FUNewsManagementSystem.API.csproj|solutionrelative:prn232.funewsmanagementsystem.api\\controllers\\systemaccountscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3572AE3F-994E-4289-9A56-F2069E664830}|PRN232.FUNewsManagementSystem.API\\PRN232.FUNewsManagementSystem.API.csproj|d:\\ki-13-fpt\\prn232 - lam huu khanh phuong\\lab2\\prn232\\sp26_prn232_se1856_funewsmanagementsystem\\prn232.funewsmanagementsystem.api\\controllers\\newsarticlescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3572AE3F-994E-4289-9A56-F2069E664830}|PRN232.FUNewsManagementSystem.API\\PRN232.FUNewsManagementSystem.API.csproj|solutionrelative:prn232.funewsmanagementsystem.api\\controllers\\newsarticlescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3572AE3F-994E-4289-9A56-F2069E664830}|PRN232.FUNewsManagementSystem.API\\PRN232.FUNewsManagementSystem.API.csproj|d:\\ki-13-fpt\\prn232 - lam huu khanh phuong\\lab2\\prn232\\sp26_prn232_se1856_funewsmanagementsystem\\prn232.funewsmanagementsystem.api\\controllers\\categoriescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3572AE3F-994E-4289-9A56-F2069E664830}|PRN232.FUNewsManagementSystem.API\\PRN232.FUNewsManagementSystem.API.csproj|solutionrelative:prn232.funewsmanagementsystem.api\\controllers\\categoriescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5DF925B6-31AA-4AA1-B1E1-ABD4A2799703}|PRN232.FUNewsManagementSystem.Repo\\PRN232.FUNewsManagementSystem.Repo.csproj|d:\\ki-13-fpt\\prn232 - lam huu khanh phuong\\lab2\\prn232\\sp26_prn232_se1856_funewsmanagementsystem\\prn232.funewsmanagementsystem.repo\\prn232.funewsmanagementsystem.repo.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{5DF925B6-31AA-4AA1-B1E1-ABD4A2799703}|PRN232.FUNewsManagementSystem.Repo\\PRN232.FUNewsManagementSystem.Repo.csproj|solutionrelative:prn232.funewsmanagementsystem.repo\\prn232.funewsmanagementsystem.repo.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5DF925B6-31AA-4AA1-B1E1-ABD4A2799703}|PRN232.FUNewsManagementSystem.Repo\\PRN232.FUNewsManagementSystem.Repo.csproj|d:\\ki-13-fpt\\prn232 - lam huu khanh phuong\\lab2\\prn232\\sp26_prn232_se1856_funewsmanagementsystem\\prn232.funewsmanagementsystem.repo\\dbcontext\\funewsdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5DF925B6-31AA-4AA1-B1E1-ABD4A2799703}|PRN232.FUNewsManagementSystem.Repo\\PRN232.FUNewsManagementSystem.Repo.csproj|solutionrelative:prn232.funewsmanagementsystem.repo\\dbcontext\\funewsdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2DB96496-6EC8-4083-88F7-C131E0E3CF42}|PRN232.FUNewsManagementSystem.Services\\PRN232.FUNewsManagementSystem.Services.csproj|d:\\ki-13-fpt\\prn232 - lam huu khanh phuong\\lab2\\prn232\\sp26_prn232_se1856_funewsmanagementsystem\\prn232.funewsmanagementsystem.services\\services\\tagservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2DB96496-6EC8-4083-88F7-C131E0E3CF42}|PRN232.FUNewsManagementSystem.Services\\PRN232.FUNewsManagementSystem.Services.csproj|solutionrelative:prn232.funewsmanagementsystem.services\\services\\tagservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2DB96496-6EC8-4083-88F7-C131E0E3CF42}|PRN232.FUNewsManagementSystem.Services\\PRN232.FUNewsManagementSystem.Services.csproj|d:\\ki-13-fpt\\prn232 - lam huu khanh phuong\\lab2\\prn232\\sp26_prn232_se1856_funewsmanagementsystem\\prn232.funewsmanagementsystem.services\\services\\systemaccountservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2DB96496-6EC8-4083-88F7-C131E0E3CF42}|PRN232.FUNewsManagementSystem.Services\\PRN232.FUNewsManagementSystem.Services.csproj|solutionrelative:prn232.funewsmanagementsystem.services\\services\\systemaccountservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2DB96496-6EC8-4083-88F7-C131E0E3CF42}|PRN232.FUNewsManagementSystem.Services\\PRN232.FUNewsManagementSystem.Services.csproj|d:\\ki-13-fpt\\prn232 - lam huu khanh phuong\\lab2\\prn232\\sp26_prn232_se1856_funewsmanagementsystem\\prn232.funewsmanagementsystem.services\\services\\newsarticleservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2DB96496-6EC8-4083-88F7-C131E0E3CF42}|PRN232.FUNewsManagementSystem.Services\\PRN232.FUNewsManagementSystem.Services.csproj|solutionrelative:prn232.funewsmanagementsystem.services\\services\\newsarticleservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2DB96496-6EC8-4083-88F7-C131E0E3CF42}|PRN232.FUNewsManagementSystem.Services\\PRN232.FUNewsManagementSystem.Services.csproj|d:\\ki-13-fpt\\prn232 - lam huu khanh phuong\\lab2\\prn232\\sp26_prn232_se1856_funewsmanagementsystem\\prn232.funewsmanagementsystem.services\\services\\iservice\\itagservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2DB96496-6EC8-4083-88F7-C131E0E3CF42}|PRN232.FUNewsManagementSystem.Services\\PRN232.FUNewsManagementSystem.Services.csproj|solutionrelative:prn232.funewsmanagementsystem.services\\services\\iservice\\itagservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2DB96496-6EC8-4083-88F7-C131E0E3CF42}|PRN232.FUNewsManagementSystem.Services\\PRN232.FUNewsManagementSystem.Services.csproj|d:\\ki-13-fpt\\prn232 - lam huu khanh phuong\\lab2\\prn232\\sp26_prn232_se1856_funewsmanagementsystem\\prn232.funewsmanagementsystem.services\\services\\iservice\\isystemaccountservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2DB96496-6EC8-4083-88F7-C131E0E3CF42}|PRN232.FUNewsManagementSystem.Services\\PRN232.FUNewsManagementSystem.Services.csproj|solutionrelative:prn232.funewsmanagementsystem.services\\services\\iservice\\isystemaccountservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2DB96496-6EC8-4083-88F7-C131E0E3CF42}|PRN232.FUNewsManagementSystem.Services\\PRN232.FUNewsManagementSystem.Services.csproj|d:\\ki-13-fpt\\prn232 - lam huu khanh phuong\\lab2\\prn232\\sp26_prn232_se1856_funewsmanagementsystem\\prn232.funewsmanagementsystem.services\\services\\categoryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2DB96496-6EC8-4083-88F7-C131E0E3CF42}|PRN232.FUNewsManagementSystem.Services\\PRN232.FUNewsManagementSystem.Services.csproj|solutionrelative:prn232.funewsmanagementsystem.services\\services\\categoryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2DB96496-6EC8-4083-88F7-C131E0E3CF42}|PRN232.FUNewsManagementSystem.Services\\PRN232.FUNewsManagementSystem.Services.csproj|d:\\ki-13-fpt\\prn232 - lam huu khanh phuong\\lab2\\prn232\\sp26_prn232_se1856_funewsmanagementsystem\\prn232.funewsmanagementsystem.services\\services\\iservice\\inewsarticleservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2DB96496-6EC8-4083-88F7-C131E0E3CF42}|PRN232.FUNewsManagementSystem.Services\\PRN232.FUNewsManagementSystem.Services.csproj|solutionrelative:prn232.funewsmanagementsystem.services\\services\\iservice\\inewsarticleservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2DB96496-6EC8-4083-88F7-C131E0E3CF42}|PRN232.FUNewsManagementSystem.Services\\PRN232.FUNewsManagementSystem.Services.csproj|d:\\ki-13-fpt\\prn232 - lam huu khanh phuong\\lab2\\prn232\\sp26_prn232_se1856_funewsmanagementsystem\\prn232.funewsmanagementsystem.services\\services\\iservice\\icategoryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2DB96496-6EC8-4083-88F7-C131E0E3CF42}|PRN232.FUNewsManagementSystem.Services\\PRN232.FUNewsManagementSystem.Services.csproj|solutionrelative:prn232.funewsmanagementsystem.services\\services\\iservice\\icategoryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2DB96496-6EC8-4083-88F7-C131E0E3CF42}|PRN232.FUNewsManagementSystem.Services\\PRN232.FUNewsManagementSystem.Services.csproj|d:\\ki-13-fpt\\prn232 - lam huu khanh phuong\\lab2\\prn232\\sp26_prn232_se1856_funewsmanagementsystem\\prn232.funewsmanagementsystem.services\\prn232.funewsmanagementsystem.services.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{2DB96496-6EC8-4083-88F7-C131E0E3CF42}|PRN232.FUNewsManagementSystem.Services\\PRN232.FUNewsManagementSystem.Services.csproj|solutionrelative:prn232.funewsmanagementsystem.services\\prn232.funewsmanagementsystem.services.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5DF925B6-31AA-4AA1-B1E1-ABD4A2799703}|PRN232.FUNewsManagementSystem.Repo\\PRN232.FUNewsManagementSystem.Repo.csproj|d:\\ki-13-fpt\\prn232 - lam huu khanh phuong\\lab2\\prn232\\sp26_prn232_se1856_funewsmanagementsystem\\prn232.funewsmanagementsystem.repo\\unitofwork\\unitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5DF925B6-31AA-4AA1-B1E1-ABD4A2799703}|PRN232.FUNewsManagementSystem.Repo\\PRN232.FUNewsManagementSystem.Repo.csproj|solutionrelative:prn232.funewsmanagementsystem.repo\\unitofwork\\unitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5DF925B6-31AA-4AA1-B1E1-ABD4A2799703}|PRN232.FUNewsManagementSystem.Repo\\PRN232.FUNewsManagementSystem.Repo.csproj|d:\\ki-13-fpt\\prn232 - lam huu khanh phuong\\lab2\\prn232\\sp26_prn232_se1856_funewsmanagementsystem\\prn232.funewsmanagementsystem.repo\\unitofwork\\iunitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5DF925B6-31AA-4AA1-B1E1-ABD4A2799703}|PRN232.FUNewsManagementSystem.Repo\\PRN232.FUNewsManagementSystem.Repo.csproj|solutionrelative:prn232.funewsmanagementsystem.repo\\unitofwork\\iunitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5DF925B6-31AA-4AA1-B1E1-ABD4A2799703}|PRN232.FUNewsManagementSystem.Repo\\PRN232.FUNewsManagementSystem.Repo.csproj|d:\\ki-13-fpt\\prn232 - lam huu khanh phuong\\lab2\\prn232\\sp26_prn232_se1856_funewsmanagementsystem\\prn232.funewsmanagementsystem.repo\\genericrepo\\genericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5DF925B6-31AA-4AA1-B1E1-ABD4A2799703}|PRN232.FUNewsManagementSystem.Repo\\PRN232.FUNewsManagementSystem.Repo.csproj|solutionrelative:prn232.funewsmanagementsystem.repo\\genericrepo\\genericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5DF925B6-31AA-4AA1-B1E1-ABD4A2799703}|PRN232.FUNewsManagementSystem.Repo\\PRN232.FUNewsManagementSystem.Repo.csproj|d:\\ki-13-fpt\\prn232 - lam huu khanh phuong\\lab2\\prn232\\sp26_prn232_se1856_funewsmanagementsystem\\prn232.funewsmanagementsystem.repo\\repositories\\tagrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5DF925B6-31AA-4AA1-B1E1-ABD4A2799703}|PRN232.FUNewsManagementSystem.Repo\\PRN232.FUNewsManagementSystem.Repo.csproj|solutionrelative:prn232.funewsmanagementsystem.repo\\repositories\\tagrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5DF925B6-31AA-4AA1-B1E1-ABD4A2799703}|PRN232.FUNewsManagementSystem.Repo\\PRN232.FUNewsManagementSystem.Repo.csproj|d:\\ki-13-fpt\\prn232 - lam huu khanh phuong\\lab2\\prn232\\sp26_prn232_se1856_funewsmanagementsystem\\prn232.funewsmanagementsystem.repo\\repositories\\systemaccountrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5DF925B6-31AA-4AA1-B1E1-ABD4A2799703}|PRN232.FUNewsManagementSystem.Repo\\PRN232.FUNewsManagementSystem.Repo.csproj|solutionrelative:prn232.funewsmanagementsystem.repo\\repositories\\systemaccountrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5DF925B6-31AA-4AA1-B1E1-ABD4A2799703}|PRN232.FUNewsManagementSystem.Repo\\PRN232.FUNewsManagementSystem.Repo.csproj|d:\\ki-13-fpt\\prn232 - lam huu khanh phuong\\lab2\\prn232\\sp26_prn232_se1856_funewsmanagementsystem\\prn232.funewsmanagementsystem.repo\\repositories\\newsarticlerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5DF925B6-31AA-4AA1-B1E1-ABD4A2799703}|PRN232.FUNewsManagementSystem.Repo\\PRN232.FUNewsManagementSystem.Repo.csproj|solutionrelative:prn232.funewsmanagementsystem.repo\\repositories\\newsarticlerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5DF925B6-31AA-4AA1-B1E1-ABD4A2799703}|PRN232.FUNewsManagementSystem.Repo\\PRN232.FUNewsManagementSystem.Repo.csproj|d:\\ki-13-fpt\\prn232 - lam huu khanh phuong\\lab2\\prn232\\sp26_prn232_se1856_funewsmanagementsystem\\prn232.funewsmanagementsystem.repo\\repositories\\categoryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5DF925B6-31AA-4AA1-B1E1-ABD4A2799703}|PRN232.FUNewsManagementSystem.Repo\\PRN232.FUNewsManagementSystem.Repo.csproj|solutionrelative:prn232.funewsmanagementsystem.repo\\repositories\\categoryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5DF925B6-31AA-4AA1-B1E1-ABD4A2799703}|PRN232.FUNewsManagementSystem.Repo\\PRN232.FUNewsManagementSystem.Repo.csproj|d:\\ki-13-fpt\\prn232 - lam huu khanh phuong\\lab2\\prn232\\sp26_prn232_se1856_funewsmanagementsystem\\prn232.funewsmanagementsystem.repo\\repositories\\irepository\\itagrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5DF925B6-31AA-4AA1-B1E1-ABD4A2799703}|PRN232.FUNewsManagementSystem.Repo\\PRN232.FUNewsManagementSystem.Repo.csproj|solutionrelative:prn232.funewsmanagementsystem.repo\\repositories\\irepository\\itagrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5DF925B6-31AA-4AA1-B1E1-ABD4A2799703}|PRN232.FUNewsManagementSystem.Repo\\PRN232.FUNewsManagementSystem.Repo.csproj|d:\\ki-13-fpt\\prn232 - lam huu khanh phuong\\lab2\\prn232\\sp26_prn232_se1856_funewsmanagementsystem\\prn232.funewsmanagementsystem.repo\\repositories\\irepository\\isystemaccountrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5DF925B6-31AA-4AA1-B1E1-ABD4A2799703}|PRN232.FUNewsManagementSystem.Repo\\PRN232.FUNewsManagementSystem.Repo.csproj|solutionrelative:prn232.funewsmanagementsystem.repo\\repositories\\irepository\\isystemaccountrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5DF925B6-31AA-4AA1-B1E1-ABD4A2799703}|PRN232.FUNewsManagementSystem.Repo\\PRN232.FUNewsManagementSystem.Repo.csproj|d:\\ki-13-fpt\\prn232 - lam huu khanh phuong\\lab2\\prn232\\sp26_prn232_se1856_funewsmanagementsystem\\prn232.funewsmanagementsystem.repo\\repositories\\irepository\\inewsarticlerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5DF925B6-31AA-4AA1-B1E1-ABD4A2799703}|PRN232.FUNewsManagementSystem.Repo\\PRN232.FUNewsManagementSystem.Repo.csproj|solutionrelative:prn232.funewsmanagementsystem.repo\\repositories\\irepository\\inewsarticlerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5DF925B6-31AA-4AA1-B1E1-ABD4A2799703}|PRN232.FUNewsManagementSystem.Repo\\PRN232.FUNewsManagementSystem.Repo.csproj|d:\\ki-13-fpt\\prn232 - lam huu khanh phuong\\lab2\\prn232\\sp26_prn232_se1856_funewsmanagementsystem\\prn232.funewsmanagementsystem.repo\\repositories\\irepository\\icategoryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5DF925B6-31AA-4AA1-B1E1-ABD4A2799703}|PRN232.FUNewsManagementSystem.Repo\\PRN232.FUNewsManagementSystem.Repo.csproj|solutionrelative:prn232.funewsmanagementsystem.repo\\repositories\\irepository\\icategoryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5DF925B6-31AA-4AA1-B1E1-ABD4A2799703}|PRN232.FUNewsManagementSystem.Repo\\PRN232.FUNewsManagementSystem.Repo.csproj|d:\\ki-13-fpt\\prn232 - lam huu khanh phuong\\lab2\\prn232\\sp26_prn232_se1856_funewsmanagementsystem\\prn232.funewsmanagementsystem.repo\\genericrepo\\igenericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5DF925B6-31AA-4AA1-B1E1-ABD4A2799703}|PRN232.FUNewsManagementSystem.Repo\\PRN232.FUNewsManagementSystem.Repo.csproj|solutionrelative:prn232.funewsmanagementsystem.repo\\genericrepo\\igenericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,8 +126,216 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.API\\Program.cs",
+              "RelativeDocumentMoniker": "PRN232.FUNewsManagementSystem.API\\Program.cs",
+              "ToolTip": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.API\\Program.cs",
+              "RelativeToolTip": "PRN232.FUNewsManagementSystem.API\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEYAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-01T21:15:43.982Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.API\\appsettings.json",
+              "RelativeDocumentMoniker": "PRN232.FUNewsManagementSystem.API\\appsettings.json",
+              "ToolTip": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.API\\appsettings.json",
+              "RelativeToolTip": "PRN232.FUNewsManagementSystem.API\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-02-01T21:14:29.923Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "TagsController.cs",
+              "DocumentMoniker": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.API\\Controllers\\TagsController.cs",
+              "RelativeDocumentMoniker": "PRN232.FUNewsManagementSystem.API\\Controllers\\TagsController.cs",
+              "ToolTip": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.API\\Controllers\\TagsController.cs",
+              "RelativeToolTip": "PRN232.FUNewsManagementSystem.API\\Controllers\\TagsController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGMAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-01T21:14:04.838Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "SystemAccountsController.cs",
+              "DocumentMoniker": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.API\\Controllers\\SystemAccountsController.cs",
+              "RelativeDocumentMoniker": "PRN232.FUNewsManagementSystem.API\\Controllers\\SystemAccountsController.cs",
+              "ToolTip": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.API\\Controllers\\SystemAccountsController.cs",
+              "RelativeToolTip": "PRN232.FUNewsManagementSystem.API\\Controllers\\SystemAccountsController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGwAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-01T21:13:22.568Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "NewsArticlesController.cs",
+              "DocumentMoniker": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.API\\Controllers\\NewsArticlesController.cs",
+              "RelativeDocumentMoniker": "PRN232.FUNewsManagementSystem.API\\Controllers\\NewsArticlesController.cs",
+              "ToolTip": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.API\\Controllers\\NewsArticlesController.cs",
+              "RelativeToolTip": "PRN232.FUNewsManagementSystem.API\\Controllers\\NewsArticlesController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAHoAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-01T21:11:54.106Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "CategoriesController.cs",
+              "DocumentMoniker": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.API\\Controllers\\CategoriesController.cs",
+              "RelativeDocumentMoniker": "PRN232.FUNewsManagementSystem.API\\Controllers\\CategoriesController.cs",
+              "ToolTip": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.API\\Controllers\\CategoriesController.cs",
+              "RelativeToolTip": "PRN232.FUNewsManagementSystem.API\\Controllers\\CategoriesController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAHgAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-01T21:10:27.826Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "TagService.cs",
+              "DocumentMoniker": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.Services\\Services\\TagService.cs",
+              "RelativeDocumentMoniker": "PRN232.FUNewsManagementSystem.Services\\Services\\TagService.cs",
+              "ToolTip": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.Services\\Services\\TagService.cs",
+              "RelativeToolTip": "PRN232.FUNewsManagementSystem.Services\\Services\\TagService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFoAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-01T20:57:56.446Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "SystemAccountService.cs",
+              "DocumentMoniker": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.Services\\Services\\SystemAccountService.cs",
+              "RelativeDocumentMoniker": "PRN232.FUNewsManagementSystem.Services\\Services\\SystemAccountService.cs",
+              "ToolTip": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.Services\\Services\\SystemAccountService.cs",
+              "RelativeToolTip": "PRN232.FUNewsManagementSystem.Services\\Services\\SystemAccountService.cs",
+              "ViewState": "AgIAADsAAAAAAAAAAAAwwF8AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-01T20:57:09.733Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "NewsArticleService.cs",
+              "DocumentMoniker": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.Services\\Services\\NewsArticleService.cs",
+              "RelativeDocumentMoniker": "PRN232.FUNewsManagementSystem.Services\\Services\\NewsArticleService.cs",
+              "ToolTip": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.Services\\Services\\NewsArticleService.cs",
+              "RelativeToolTip": "PRN232.FUNewsManagementSystem.Services\\Services\\NewsArticleService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGMAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-01T20:56:36.144Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "ITagService.cs",
+              "DocumentMoniker": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.Services\\Services\\IService\\ITagService.cs",
+              "RelativeDocumentMoniker": "PRN232.FUNewsManagementSystem.Services\\Services\\IService\\ITagService.cs",
+              "ToolTip": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.Services\\Services\\IService\\ITagService.cs",
+              "RelativeToolTip": "PRN232.FUNewsManagementSystem.Services\\Services\\IService\\ITagService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-01T20:56:01.421Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "ISystemAccountService.cs",
+              "DocumentMoniker": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.Services\\Services\\IService\\ISystemAccountService.cs",
+              "RelativeDocumentMoniker": "PRN232.FUNewsManagementSystem.Services\\Services\\IService\\ISystemAccountService.cs",
+              "ToolTip": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.Services\\Services\\IService\\ISystemAccountService.cs",
+              "RelativeToolTip": "PRN232.FUNewsManagementSystem.Services\\Services\\IService\\ISystemAccountService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-01T20:55:34.098Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "FUNewsDBContext.cs",
+              "DocumentMoniker": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.Repo\\DBContext\\FUNewsDBContext.cs",
+              "RelativeDocumentMoniker": "PRN232.FUNewsManagementSystem.Repo\\DBContext\\FUNewsDBContext.cs",
+              "ToolTip": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.Repo\\DBContext\\FUNewsDBContext.cs",
+              "RelativeToolTip": "PRN232.FUNewsManagementSystem.Repo\\DBContext\\FUNewsDBContext.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAzwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-01T20:20:17.094Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "PRN232.FUNewsManagementSystem.Repo.csproj",
+              "DocumentMoniker": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.Repo\\PRN232.FUNewsManagementSystem.Repo.csproj",
+              "RelativeDocumentMoniker": "PRN232.FUNewsManagementSystem.Repo\\PRN232.FUNewsManagementSystem.Repo.csproj",
+              "ToolTip": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.Repo\\PRN232.FUNewsManagementSystem.Repo.csproj",
+              "RelativeToolTip": "PRN232.FUNewsManagementSystem.Repo\\PRN232.FUNewsManagementSystem.Repo.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAABMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-02-01T20:11:05.735Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "INewsArticleService.cs",
+              "DocumentMoniker": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.Services\\Services\\IService\\INewsArticleService.cs",
+              "RelativeDocumentMoniker": "PRN232.FUNewsManagementSystem.Services\\Services\\IService\\INewsArticleService.cs",
+              "ToolTip": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.Services\\Services\\IService\\INewsArticleService.cs",
+              "RelativeToolTip": "PRN232.FUNewsManagementSystem.Services\\Services\\IService\\INewsArticleService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-01T20:54:46.641Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "ICategoryService.cs",
+              "DocumentMoniker": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.Services\\Services\\IService\\ICategoryService.cs",
+              "RelativeDocumentMoniker": "PRN232.FUNewsManagementSystem.Services\\Services\\IService\\ICategoryService.cs",
+              "ToolTip": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.Services\\Services\\IService\\ICategoryService.cs",
+              "RelativeToolTip": "PRN232.FUNewsManagementSystem.Services\\Services\\IService\\ICategoryService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-01T20:54:13.89Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "PRN232.FUNewsManagementSystem.Services",
+              "DocumentMoniker": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.Services\\PRN232.FUNewsManagementSystem.Services.csproj",
+              "RelativeDocumentMoniker": "PRN232.FUNewsManagementSystem.Services\\PRN232.FUNewsManagementSystem.Services.csproj",
+              "ToolTip": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.Services\\PRN232.FUNewsManagementSystem.Services.csproj",
+              "RelativeToolTip": "PRN232.FUNewsManagementSystem.Services\\PRN232.FUNewsManagementSystem.Services.csproj",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-02-01T20:52:18.577Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
@@ -38,6 +363,175 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "CategoryService.cs",
+              "DocumentMoniker": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.Services\\Services\\CategoryService.cs",
+              "RelativeDocumentMoniker": "PRN232.FUNewsManagementSystem.Services\\Services\\CategoryService.cs",
+              "ToolTip": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.Services\\Services\\CategoryService.cs",
+              "RelativeToolTip": "PRN232.FUNewsManagementSystem.Services\\Services\\CategoryService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFIAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-01T20:47:35.445Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "SystemAccountRepository.cs",
+              "DocumentMoniker": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.Repo\\Repositories\\SystemAccountRepository.cs",
+              "RelativeDocumentMoniker": "PRN232.FUNewsManagementSystem.Repo\\Repositories\\SystemAccountRepository.cs",
+              "ToolTip": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.Repo\\Repositories\\SystemAccountRepository.cs",
+              "RelativeToolTip": "PRN232.FUNewsManagementSystem.Repo\\Repositories\\SystemAccountRepository.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAmwCoAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-01T20:43:43.646Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "TagRepository.cs",
+              "DocumentMoniker": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.Repo\\Repositories\\TagRepository.cs",
+              "RelativeDocumentMoniker": "PRN232.FUNewsManagementSystem.Repo\\Repositories\\TagRepository.cs",
+              "ToolTip": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.Repo\\Repositories\\TagRepository.cs",
+              "RelativeToolTip": "PRN232.FUNewsManagementSystem.Repo\\Repositories\\TagRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACQAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-01T20:44:56.761Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "IUnitOfWork.cs",
+              "DocumentMoniker": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.Repo\\UnitOfWork\\IUnitOfWork.cs",
+              "RelativeDocumentMoniker": "PRN232.FUNewsManagementSystem.Repo\\UnitOfWork\\IUnitOfWork.cs",
+              "ToolTip": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.Repo\\UnitOfWork\\IUnitOfWork.cs",
+              "RelativeToolTip": "PRN232.FUNewsManagementSystem.Repo\\UnitOfWork\\IUnitOfWork.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-01T20:37:11.553Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "UnitOfWork.cs",
+              "DocumentMoniker": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.Repo\\UnitOfWork\\UnitOfWork.cs",
+              "RelativeDocumentMoniker": "PRN232.FUNewsManagementSystem.Repo\\UnitOfWork\\UnitOfWork.cs",
+              "ToolTip": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.Repo\\UnitOfWork\\UnitOfWork.cs",
+              "RelativeToolTip": "PRN232.FUNewsManagementSystem.Repo\\UnitOfWork\\UnitOfWork.cs",
+              "ViewState": "AgIAAGIAAAAAAAAAAAAUwBoAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-01T20:36:26.043Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "GenericRepository.cs",
+              "DocumentMoniker": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.Repo\\GenericRepo\\GenericRepository.cs",
+              "RelativeDocumentMoniker": "PRN232.FUNewsManagementSystem.Repo\\GenericRepo\\GenericRepository.cs",
+              "ToolTip": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.Repo\\GenericRepo\\GenericRepository.cs",
+              "RelativeToolTip": "PRN232.FUNewsManagementSystem.Repo\\GenericRepo\\GenericRepository.cs",
+              "ViewState": "AgIAAF0AAAAAAAAAAAAuwEwAAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-01T20:10:26.106Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "NewsArticleRepository.cs",
+              "DocumentMoniker": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.Repo\\Repositories\\NewsArticleRepository.cs",
+              "RelativeDocumentMoniker": "PRN232.FUNewsManagementSystem.Repo\\Repositories\\NewsArticleRepository.cs",
+              "ToolTip": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.Repo\\Repositories\\NewsArticleRepository.cs",
+              "RelativeToolTip": "PRN232.FUNewsManagementSystem.Repo\\Repositories\\NewsArticleRepository.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAAwEUAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-01T20:42:13.979Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "CategoryRepository.cs",
+              "DocumentMoniker": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.Repo\\Repositories\\CategoryRepository.cs",
+              "RelativeDocumentMoniker": "PRN232.FUNewsManagementSystem.Repo\\Repositories\\CategoryRepository.cs",
+              "ToolTip": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.Repo\\Repositories\\CategoryRepository.cs",
+              "RelativeToolTip": "PRN232.FUNewsManagementSystem.Repo\\Repositories\\CategoryRepository.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAAwBQAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-01T20:39:30.023Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "ITagRepository.cs",
+              "DocumentMoniker": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.Repo\\Repositories\\IRepository\\ITagRepository.cs",
+              "RelativeDocumentMoniker": "PRN232.FUNewsManagementSystem.Repo\\Repositories\\IRepository\\ITagRepository.cs",
+              "ToolTip": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.Repo\\Repositories\\IRepository\\ITagRepository.cs",
+              "RelativeToolTip": "PRN232.FUNewsManagementSystem.Repo\\Repositories\\IRepository\\ITagRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-01T20:44:26.638Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "ISystemAccountRepository.cs",
+              "DocumentMoniker": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.Repo\\Repositories\\IRepository\\ISystemAccountRepository.cs",
+              "RelativeDocumentMoniker": "PRN232.FUNewsManagementSystem.Repo\\Repositories\\IRepository\\ISystemAccountRepository.cs",
+              "ToolTip": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.Repo\\Repositories\\IRepository\\ISystemAccountRepository.cs",
+              "RelativeToolTip": "PRN232.FUNewsManagementSystem.Repo\\Repositories\\IRepository\\ISystemAccountRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-01T20:42:53.941Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "INewsArticleRepository.cs",
+              "DocumentMoniker": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.Repo\\Repositories\\IRepository\\INewsArticleRepository.cs",
+              "RelativeDocumentMoniker": "PRN232.FUNewsManagementSystem.Repo\\Repositories\\IRepository\\INewsArticleRepository.cs",
+              "ToolTip": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.Repo\\Repositories\\IRepository\\INewsArticleRepository.cs",
+              "RelativeToolTip": "PRN232.FUNewsManagementSystem.Repo\\Repositories\\IRepository\\INewsArticleRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-01T20:41:40.83Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "ICategoryRepository.cs",
+              "DocumentMoniker": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.Repo\\Repositories\\IRepository\\ICategoryRepository.cs",
+              "RelativeDocumentMoniker": "PRN232.FUNewsManagementSystem.Repo\\Repositories\\IRepository\\ICategoryRepository.cs",
+              "ToolTip": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.Repo\\Repositories\\IRepository\\ICategoryRepository.cs",
+              "RelativeToolTip": "PRN232.FUNewsManagementSystem.Repo\\Repositories\\IRepository\\ICategoryRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-01T20:40:29.977Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "IGenericRepository.cs",
+              "DocumentMoniker": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.Repo\\GenericRepo\\IGenericRepository.cs",
+              "RelativeDocumentMoniker": "PRN232.FUNewsManagementSystem.Repo\\GenericRepo\\IGenericRepository.cs",
+              "ToolTip": "D:\\Ki-13-FPT\\PRN232 - Lam Huu Khanh Phuong\\LAB2\\PRN232\\SP26_PRN232_SE1856_FUNewsManagementSystem\\PRN232.FUNewsManagementSystem.Repo\\GenericRepo\\IGenericRepository.cs",
+              "RelativeToolTip": "PRN232.FUNewsManagementSystem.Repo\\GenericRepo\\IGenericRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-01T20:24:36.93Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Bookmark",

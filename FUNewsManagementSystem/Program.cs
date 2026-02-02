@@ -70,10 +70,13 @@ namespace FUNewsManagementSystem
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
+                app.UseStaticFiles();
                 app.UseSwagger();
                 app.UseSwaggerUI(c =>
                 {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "FU News Management System API v1");
+                    // c.SwaggerEndpoint("/swagger/v1/swagger.json", "FU News Management System API v1");
+                    // Inject file CSS tùy chỉnh vào giao diện
+                    c.InjectStylesheet("/css/emilia-theme.css");
                 });
             }
 

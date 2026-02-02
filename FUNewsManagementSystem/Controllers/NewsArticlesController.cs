@@ -1,4 +1,5 @@
-using FUNewsManagementSystem.DTOs;
+using FUNewsManagementSystem.Models.Requests;
+using FUNewsManagementSystem.Models.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
@@ -59,7 +60,7 @@ namespace FUNewsManagementSystem.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] CreateNewsArticleDTO newsDto)
+        public IActionResult Post([FromBody] CreateNewsArticleRequest newsDto)
         {
             if (!ModelState.IsValid)
             {
@@ -86,7 +87,7 @@ namespace FUNewsManagementSystem.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(string id, [FromBody] UpdateNewsArticleDTO newsDto)
+        public IActionResult Put(string id, [FromBody] UpdateNewsArticleRequest newsDto)
         {
             if (!ModelState.IsValid)
             {

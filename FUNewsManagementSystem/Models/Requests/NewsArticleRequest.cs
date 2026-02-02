@@ -1,42 +1,8 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace FUNewsManagementSystem.DTOs
+namespace FUNewsManagementSystem.Models.Requests
 {
-    public class NewsArticleDTO
-    {
-        public string NewsArticleId { get; set; } = string.Empty;
-
-        [StringLength(400)]
-        public string? NewsTitle { get; set; }
-
-        [Required]
-        [StringLength(150)]
-        public string Headline { get; set; } = string.Empty;
-
-        public DateTime? CreatedDate { get; set; }
-
-        [StringLength(4000)]
-        public string? NewsContent { get; set; }
-
-        [StringLength(400)]
-        public string? NewsSource { get; set; }
-
-        public short? CategoryId { get; set; }
-
-        public bool? NewsStatus { get; set; }
-
-        public short? CreatedById { get; set; }
-
-        public short? UpdatedById { get; set; }
-
-        public DateTime? ModifiedDate { get; set; }
-
-        public List<int> TagIds { get; set; } = new List<int>();
-    }
-
-    public class CreateNewsArticleDTO
+    public class CreateNewsArticleRequest
     {
         [Required]
         [StringLength(20)]
@@ -63,7 +29,7 @@ namespace FUNewsManagementSystem.DTOs
         public List<int> TagIds { get; set; } = new List<int>();
     }
 
-    public class UpdateNewsArticleDTO
+    public class UpdateNewsArticleRequest
     {
         [StringLength(400)]
         public string? NewsTitle { get; set; }

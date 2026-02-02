@@ -1,4 +1,5 @@
-using FUNewsManagementSystem.DTOs;
+using FUNewsManagementSystem.Models.Requests;
+using FUNewsManagementSystem.Models.Responses;
 using FUNewsManagementSystem.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using ServiceLayer.Services;

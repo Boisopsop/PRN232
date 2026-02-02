@@ -1,4 +1,5 @@
-using FUNewsManagementSystem.DTOs;
+using FUNewsManagementSystem.Models.Requests;
+using FUNewsManagementSystem.Models.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
@@ -38,7 +39,7 @@ namespace FUNewsManagementSystem.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] SystemAccountDTO accountDto)
+        public IActionResult Post([FromBody] CreateSystemAccountRequest accountDto)
         {
             if (!ModelState.IsValid)
             {
@@ -53,7 +54,6 @@ namespace FUNewsManagementSystem.Controllers
 
             var account = new SystemAccount
             {
-                AccountId = accountDto.AccountId,
                 AccountName = accountDto.AccountName,
                 AccountEmail = accountDto.AccountEmail,
                 AccountRole = accountDto.AccountRole,
@@ -65,7 +65,7 @@ namespace FUNewsManagementSystem.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(short id, [FromBody] UpdateAccountDTO accountDto)
+        public IActionResult Put(short id, [FromBody] UpdateSystemAccountRequest accountDto)
         {
             if (!ModelState.IsValid)
             {

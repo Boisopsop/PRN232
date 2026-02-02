@@ -1,11 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace FUNewsManagementSystem.DTOs
+namespace FUNewsManagementSystem.Models.Requests
 {
-    public class SystemAccountDTO
+    public class CreateSystemAccountRequest
     {
-        public short AccountId { get; set; }
-
         [Required]
         [StringLength(100)]
         public string AccountName { get; set; } = string.Empty;
@@ -23,7 +21,7 @@ namespace FUNewsManagementSystem.DTOs
         public string AccountPassword { get; set; } = string.Empty;
     }
 
-    public class UpdateAccountDTO
+    public class UpdateSystemAccountRequest
     {
         [Required]
         [StringLength(100)]

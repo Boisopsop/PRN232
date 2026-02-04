@@ -1,5 +1,6 @@
 using RepositoryLayer.Entities;
 using RepositoryLayer.Repositories;
+using ServiceLayer.Models;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,13 +8,13 @@ namespace ServiceLayer.Services
 {
     public interface ICategoryService
     {
-        List<Category> GetAllCategories();
-        List<Category> GetActiveCategories();
-        Category? GetCategoryById(short id);
-        void CreateCategory(Category category);
-        void UpdateCategory(Category category);
+        List<CategoryModel> GetAllCategories();
+        List<CategoryModel> GetActiveCategories();
+        CategoryModel? GetCategoryById(short id);
+        CategoryModel CreateCategory(CategoryModel category);
+        void UpdateCategory(short id, CategoryModel category);
         bool DeleteCategory(short id);
-        List<Category> SearchCategories(string? name, bool? isActive);
+        (List<CategoryModel> items, int totalCount) SearchCategories(string? name, bool? isActive, int page = 1, int pageSize = 10);
     }
 
     public class CategoryService : ICategoryService
@@ -25,30 +26,54 @@ namespace ServiceLayer.Services
             _repository = repository;
         }
 
-        public List<Category> GetAllCategories()
+        public List<CategoryModel> GetAllCategories()
         {
-            return _repository.GetAll().ToList();
+            var entities = _repository.GetAll().ToList();
+            return entities.Select(MapToModel).ToList();
         }
 
-        public List<Category> GetActiveCategories()
+        public List<CategoryModel> GetActiveCategories()
         {
-            return _repository.GetActiveCategories().ToList();
+            var entities = _repository.GetActiveCategories().ToList();
+            return entities.Select(MapToModel).ToList();
         }
 
-        public Category? GetCategoryById(short id)
+        public CategoryModel? GetCategoryById(short id)
         {
-            return _repository.GetById(id);
+            var entity = _repository.GetById(id);
+            return entity == null ? null : MapToModel(entity);
         }
 
-        public void CreateCategory(Category category)
+        public CategoryModel CreateCategory(CategoryModel category)
         {
-            _repository.Add(category);
+            var entity = new Category
+            {
+                CategoryName = category.CategoryName,
+                CategoryDesciption = category.CategoryDesciption,
+                ParentCategoryId = category.ParentCategoryId,
+                IsActive = category.IsActive ?? true
+            };
+
+            _repository.Add(entity);
             _repository.SaveChanges();
+
+            return MapToModel(entity);
         }
 
-        public void UpdateCategory(Category category)
+        public void UpdateCategory(short id, CategoryModel category)
         {
-            _repository.Update(category);
+            var entity = _repository.GetById(id);
+            if (entity == null)
+            {
+                throw new KeyNotFoundException($"Category with ID {id} not found");
+            }
+
+            entity.CategoryName = category.CategoryName;
+            entity.CategoryDesciption = category.CategoryDesciption;
+            entity.ParentCategoryId = category.ParentCategoryId;
+            entity.IsActive = category.IsActive ?? true;
+
+            _repository.Update(entity);
             _repository.SaveChanges();
         }
 
@@ -69,7 +94,7 @@ namespace ServiceLayer.Services
             return false;
         }
 
-        public List<Category> SearchCategories(string? name, bool? isActive)
+        public (List<CategoryModel> items, int totalCount) SearchCategories(string? name, bool? isActive, int page = 1, int pageSize = 10)
         {
             var query = _repository.GetAll();
 
@@ -83,7 +108,28 @@ namespace ServiceLayer.Services
                 query = query.Where(c => c.IsActive == isActive.Value);
             }
 
-            return query.ToList();
+            var totalCount = query.Count();
+
+            var items = query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList()
+                .Select(MapToModel)
+                .ToList();
+
+            return (items, totalCount);
+        }
+
+        private CategoryModel MapToModel(Category entity)
+        {
+            return new CategoryModel
+            {
+                CategoryId = entity.CategoryId,
+                CategoryName = entity.CategoryName,
+                CategoryDesciption = entity.CategoryDesciption,
+                ParentCategoryId = entity.ParentCategoryId,
+                IsActive = entity.IsActive
+            };
         }
     }
 }

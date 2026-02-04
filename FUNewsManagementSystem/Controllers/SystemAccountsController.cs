@@ -9,7 +9,7 @@ using ServiceLayer.Services;
 
 namespace FUNewsManagementSystem.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/system-accounts")]
     [ApiController]
     public class SystemAccountsController : ControllerBase
     {

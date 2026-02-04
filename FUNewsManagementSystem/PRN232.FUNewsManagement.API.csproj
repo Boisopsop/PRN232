@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ServiceLayer\ServiceLayer.csproj" />
+    <ProjectReference Include="..\ServiceLayer\PRN232.FUNewsManagement.Services.csproj" />
   </ItemGroup>
 
 </Project>

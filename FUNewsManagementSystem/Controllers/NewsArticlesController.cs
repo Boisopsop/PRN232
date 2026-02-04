@@ -1,16 +1,19 @@
+using FUNewsManagementSystem.Models.Common;
 using FUNewsManagementSystem.Models.Requests;
 using FUNewsManagementSystem.Models.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.OData.Query;
-using Microsoft.AspNetCore.OData.Routing.Controllers;
-using RepositoryLayer.Entities;
+using ServiceLayer.Models;
 using ServiceLayer.Services;
 using System.Security.Claims;
 
 namespace FUNewsManagementSystem.Controllers
 {
-    [Route("api/[controller]")]
+    /// <summary>
+    /// RESTful API Controller for News Articles
+    /// Follows 3-layer architecture: Controller -> Service -> Repository
+    /// </summary>
+    [Route("api/v1/news-articles")]
     [ApiController]
     public class NewsArticlesController : ControllerBase
     {
@@ -21,114 +24,237 @@ namespace FUNewsManagementSystem.Controllers
             _newsService = newsService;
         }
 
+        /// <summary>
+        /// GET /api/news-articles - Get paginated list of news articles with search, filter, sort support
+        /// </summary>
+        /// <param name="title">Search by title or headline</param>
+        /// <param name="categoryId">Filter by category</param>
+        /// <param name="status">Filter by status (active/inactive)</param>
+        /// <param name="createdById">Filter by creator</param>
+        /// <param name="page">Page number (default: 1)</param>
+        /// <param name="pageSize">Items per page (default: 10)</param>
+        /// <param name="sortBy">Sort field: title, createdDate, modifiedDate</param>
+        /// <param name="isDescending">Sort direction (default: false)</param>
+        /// <returns>Paginated list of news articles</returns>
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Get([FromQuery] string? title, [FromQuery] short? categoryId, 
-            [FromQuery] bool? status, [FromQuery] short? createdById)
+        [ProducesResponseType(typeof(ApiResponse<PaginatedResponse<NewsArticleResponse>>), StatusCodes.Status200OK)]
+        public IActionResult GetNewsArticles(
+            [FromQuery] string? title,
+            [FromQuery] short? categoryId,
+            [FromQuery] bool? status,
+            [FromQuery] short? createdById,
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 10,
+            [FromQuery] string? sortBy = null,
+            [FromQuery] bool isDescending = false)
         {
-            var news = _newsService.SearchNews(title, categoryId, status, createdById);
-            return Ok(news);
+            if (page < 1) page = 1;
+            if (pageSize < 1 || pageSize > 100) pageSize = 10;
+
+            var (items, totalCount) = _newsService.SearchNews(
+                title, categoryId, status, createdById,
+                page, pageSize, sortBy, isDescending);
+
+            var responseItems = items.Select(MapToResponse).ToList();
+            var paginatedData = new PaginatedResponse<NewsArticleResponse>(
+                responseItems, totalCount, page, pageSize);
+
+            return Ok(ApiResponse<PaginatedResponse<NewsArticleResponse>>.SuccessResponse(
+                paginatedData,
+                "News articles retrieved successfully"));
         }
 
+        /// <summary>
+        /// GET /api/news-articles/{id} - Get single news article by ID with full details
+        /// </summary>
+        /// <param name="id">News article ID</param>
+        /// <returns>News article details</returns>
         [HttpGet("{id}")]
         [AllowAnonymous]
-        public IActionResult Get(string id)
+        [ProducesResponseType(typeof(ApiResponse<NewsArticleResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
+        public IActionResult GetNewsArticleById(string id)
         {
             var news = _newsService.GetNewsById(id);
             if (news == null)
             {
-                return NotFound();
+                return NotFound(ApiResponse<object>.ErrorResponse(
+                    $"News article with ID '{id}' not found"));
             }
-            return Ok(news);
+
+            var response = MapToResponse(news);
+            return Ok(ApiResponse<NewsArticleResponse>.SuccessResponse(
+                response,
+                "News article retrieved successfully"));
         }
 
-        [HttpGet("created-by/me")]
-        public IActionResult GetMyNews()
+        /// <summary>
+        /// GET /api/news-articles/me - Get news articles created by current user
+        /// </summary>
+        /// <returns>List of user's news articles</returns>
+        [HttpGet("me")]
+        [Authorize]
+        [ProducesResponseType(typeof(ApiResponse<List<NewsArticleResponse>>), StatusCodes.Status200OK)]
+        public IActionResult GetMyNewsArticles()
         {
             var accountId = short.Parse(User.FindFirst("AccountId")!.Value);
             var news = _newsService.GetNewsByCreatedBy(accountId);
-            return Ok(news);
+            var response = news.Select(MapToResponse).ToList();
+
+            return Ok(ApiResponse<List<NewsArticleResponse>>.SuccessResponse(
+                response,
+                "Your news articles retrieved successfully"));
         }
 
+        /// <summary>
+        /// GET /api/news-articles/reports - Get news articles within date range (Admin only)
+        /// </summary>
+        /// <param name="startDate">Start date</param>
+        /// <param name="endDate">End date</param>
+        /// <returns>News articles in date range</returns>
         [HttpGet("reports")]
         [Authorize(Roles = "Admin")]
+        [ProducesResponseType(typeof(ApiResponse<List<NewsArticleResponse>>), StatusCodes.Status200OK)]
         public IActionResult GetReport([FromQuery] DateTime startDate, [FromQuery] DateTime endDate)
         {
-            var news = _newsService.GetNewsByDateRange(startDate, endDate)
-                .OrderByDescending(n => n.CreatedDate);
-            return Ok(news);
+            var news = _newsService.GetNewsByDateRange(startDate, endDate);
+            var response = news.Select(MapToResponse).ToList();
+
+            return Ok(ApiResponse<List<NewsArticleResponse>>.SuccessResponse(
+                response,
+                $"Report retrieved for period {startDate:yyyy-MM-dd} to {endDate:yyyy-MM-dd}"));
         }
 
+        /// <summary>
+        /// POST /api/news-articles - Create new news article
+        /// </summary>
+        /// <param name="request">News article creation data</param>
+        /// <returns>Created news article</returns>
         [HttpPost]
-        public IActionResult Post([FromBody] CreateNewsArticleRequest newsDto)
+        [Authorize]
+        [ProducesResponseType(typeof(ApiResponse<NewsArticleResponse>), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
+        public IActionResult CreateNewsArticle([FromBody] CreateNewsArticleRequest request)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                var errors = ModelState
+                    .Where(x => x.Value?.Errors.Count > 0)
+                    .ToDictionary(
+                        kvp => kvp.Key,
+                        kvp => kvp.Value!.Errors.Select(e => e.ErrorMessage).ToArray()
+                    );
+
+                return BadRequest(new { errors });
             }
 
             var accountId = short.Parse(User.FindFirst("AccountId")!.Value);
 
-            var newsArticle = new NewsArticle
+            var newsModel = new NewsArticleModel
             {
-                NewsArticleId = newsDto.NewsArticleId,
-                NewsTitle = newsDto.NewsTitle,
-                Headline = newsDto.Headline,
-                NewsContent = newsDto.NewsContent,
-                NewsSource = newsDto.NewsSource,
-                CategoryId = newsDto.CategoryId,
-                NewsStatus = newsDto.NewsStatus,
+                NewsArticleId = request.NewsArticleId,
+                NewsTitle = request.NewsTitle,
+                Headline = request.Headline,
+                NewsContent = request.NewsContent,
+                NewsSource = request.NewsSource,
+                CategoryId = request.CategoryId,
+                NewsStatus = request.NewsStatus ?? true,
                 CreatedById = accountId,
                 UpdatedById = accountId
             };
 
-            _newsService.CreateNews(newsArticle, newsDto.TagIds);
-            return CreatedAtAction(nameof(Get), new { id = newsArticle.NewsArticleId }, newsArticle);
+            var createdNews = _newsService.CreateNews(newsModel, request.TagIds);
+            var response = MapToResponse(createdNews);
+
+            return CreatedAtAction(
+                nameof(GetNewsArticleById),
+                new { id = response.NewsArticleId },
+                ApiResponse<NewsArticleResponse>.SuccessResponse(
+                    response,
+                    "News article created successfully"));
         }
 
+        /// <summary>
+        /// PUT /api/news-articles/{id} - Update existing news article
+        /// </summary>
+        /// <param name="id">News article ID</param>
+        /// <param name="request">Updated news article data</param>
+        /// <returns>No content on success</returns>
         [HttpPut("{id}")]
-        public IActionResult Put(string id, [FromBody] UpdateNewsArticleRequest newsDto)
+        [Authorize]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        public IActionResult UpdateNewsArticle(string id, [FromBody] UpdateNewsArticleRequest request)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                var errors = ModelState
+                    .Where(x => x.Value?.Errors.Count > 0)
+                    .ToDictionary(
+                        kvp => kvp.Key,
+                        kvp => kvp.Value!.Errors.Select(e => e.ErrorMessage).ToArray()
+                    );
+
+                return BadRequest(ApiResponse<object>.ErrorResponse(
+                    "Validation failed",
+                    errors));
             }
 
             var existingNews = _newsService.GetNewsById(id);
             if (existingNews == null)
             {
-                return NotFound();
+                return NotFound(ApiResponse<object>.ErrorResponse(
+                    $"News article with ID '{id}' not found"));
             }
 
-            // Check if user is updating their own news
+            // Check authorization
             var accountId = short.Parse(User.FindFirst("AccountId")!.Value);
             if (existingNews.CreatedById != accountId)
             {
                 return Forbid();
             }
 
-            existingNews.NewsTitle = newsDto.NewsTitle;
-            existingNews.Headline = newsDto.Headline;
-            existingNews.NewsContent = newsDto.NewsContent;
-            existingNews.NewsSource = newsDto.NewsSource;
-            existingNews.CategoryId = newsDto.CategoryId;
-            existingNews.NewsStatus = newsDto.NewsStatus;
-            existingNews.UpdatedById = accountId;
+            var updateModel = new NewsArticleModel
+            {
+                NewsTitle = request.NewsTitle,
+                Headline = request.Headline,
+                NewsContent = request.NewsContent,
+                NewsSource = request.NewsSource,
+                CategoryId = request.CategoryId,
+                NewsStatus = request.NewsStatus,
+                UpdatedById = accountId
+            };
 
-            _newsService.UpdateNews(existingNews, newsDto.TagIds);
-            return NoContent();
+            _newsService.UpdateNews(id, updateModel, request.TagIds);
+
+            return Ok(ApiResponse<object>.SuccessResponse(
+                null,
+                "News article updated successfully"));
         }
 
+        /// <summary>
+        /// DELETE /api/news-articles/{id} - Delete news article
+        /// </summary>
+        /// <param name="id">News article ID</param>
+        /// <returns>No content on success</returns>
         [HttpDelete("{id}")]
-        public IActionResult Delete(string id)
+        [Authorize]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        public IActionResult DeleteNewsArticle(string id)
         {
             var existingNews = _newsService.GetNewsById(id);
             if (existingNews == null)
             {
-                return NotFound();
+                return NotFound(ApiResponse<object>.ErrorResponse(
+                    $"News article with ID '{id}' not found"));
             }
 
-            // Check if user is deleting their own news
+            // Check authorization
             var accountId = short.Parse(User.FindFirst("AccountId")!.Value);
             if (existingNews.CreatedById != accountId)
             {
@@ -136,7 +262,34 @@ namespace FUNewsManagementSystem.Controllers
             }
 
             _newsService.DeleteNews(id);
-            return NoContent();
+
+            return Ok(ApiResponse<object>.SuccessResponse(
+                null,
+                "News article deleted successfully"));
+        }
+
+        /// <summary>
+        /// Maps Business Model to Response Model
+        /// </summary>
+        private NewsArticleResponse MapToResponse(NewsArticleModel model)
+        {
+            return new NewsArticleResponse
+            {
+                NewsArticleId = model.NewsArticleId,
+                NewsTitle = model.NewsTitle,
+                Headline = model.Headline,
+                CreatedDate = model.CreatedDate,
+                NewsContent = model.NewsContent,
+                NewsSource = model.NewsSource,
+                CategoryId = model.CategoryId,
+                CategoryName = model.CategoryName,
+                NewsStatus = model.NewsStatus,
+                CreatedById = model.CreatedById,
+                CreatedByName = model.CreatedByName,
+                UpdatedById = model.UpdatedById,
+                ModifiedDate = model.ModifiedDate,
+                TagIds = model.TagIds
+            };
         }
     }
 }

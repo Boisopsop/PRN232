@@ -1,15 +1,18 @@
+using FUNewsManagementSystem.Models.Common;
 using FUNewsManagementSystem.Models.Requests;
 using FUNewsManagementSystem.Models.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.OData.Query;
-using Microsoft.AspNetCore.OData.Routing.Controllers;
-using RepositoryLayer.Entities;
+using ServiceLayer.Models;
 using ServiceLayer.Services;
 
 namespace FUNewsManagementSystem.Controllers
 {
-    [Route("api/[controller]")]
+    /// <summary>
+    /// RESTful API Controller for Categories
+    /// Follows 3-layer architecture: Controller -> Service -> Repository
+    /// </summary>
+    [Route("api/v1/categories")]
     [ApiController]
     public class CategoriesController : ControllerBase
     {
@@ -20,110 +23,227 @@ namespace FUNewsManagementSystem.Controllers
             _categoryService = categoryService;
         }
 
+        /// <summary>
+        /// GET /api/categories - Get paginated list of categories with search and filter support
+        /// </summary>
+        /// <param name="name">Search by category name</param>
+        /// <param name="isActive">Filter by active status</param>
+        /// <param name="page">Page number (default: 1)</param>
+        /// <param name="pageSize">Items per page (default: 10)</param>
+        /// <returns>Paginated list of categories</returns>
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Get([FromQuery] bool? isActive, [FromQuery] string? name)
+        [ProducesResponseType(typeof(ApiResponse<PaginatedResponse<CategoryResponse>>), StatusCodes.Status200OK)]
+        public IActionResult GetCategories(
+            [FromQuery] string? name,
+            [FromQuery] bool? isActive,
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 10)
         {
-            // If both filters are provided
-            if (isActive.HasValue || !string.IsNullOrEmpty(name))
-            {
-                var categories = _categoryService.SearchCategories(name, isActive);
-                return Ok(categories);
-            }
-            
-            // Default: return all categories
-            var allCategories = _categoryService.GetAllCategories();
-            return Ok(allCategories);
+            if (page < 1) page = 1;
+            if (pageSize < 1 || pageSize > 100) pageSize = 10;
+
+            var (items, totalCount) = _categoryService.SearchCategories(name, isActive, page, pageSize);
+
+            var responseItems = items.Select(MapToResponse).ToList();
+            var paginatedData = new PaginatedResponse<CategoryResponse>(
+                responseItems, totalCount, page, pageSize);
+
+            return Ok(ApiResponse<PaginatedResponse<CategoryResponse>>.SuccessResponse(
+                paginatedData,
+                "Categories retrieved successfully"));
         }
 
+        /// <summary>
+        /// GET /api/categories/{id} - Get single category by ID
+        /// </summary>
+        /// <param name="id">Category ID</param>
+        /// <returns>Category details</returns>
         [HttpGet("{id}")]
         [AllowAnonymous]
-        public IActionResult Get(short id)
+        [ProducesResponseType(typeof(ApiResponse<CategoryResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
+        public IActionResult GetCategoryById(short id)
         {
             var category = _categoryService.GetCategoryById(id);
             if (category == null)
             {
-                return NotFound();
+                return NotFound(ApiResponse<object>.ErrorResponse(
+                    $"Category with ID {id} not found"));
             }
-            return Ok(category);
+
+            var response = MapToResponse(category);
+            return Ok(ApiResponse<CategoryResponse>.SuccessResponse(
+                response,
+                "Category retrieved successfully"));
         }
 
+        /// <summary>
+        /// POST /api/categories - Create new category
+        /// </summary>
+        /// <param name="request">Category creation data</param>
+        /// <returns>Created category</returns>
         [HttpPost]
-        public IActionResult Post([FromBody] CreateCategoryRequest categoryDto)
+        [Authorize]
+        [ProducesResponseType(typeof(ApiResponse<CategoryResponse>), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
+        public IActionResult CreateCategory([FromBody] CreateCategoryRequest request)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                var errors = ModelState
+                    .Where(x => x.Value?.Errors.Count > 0)
+                    .ToDictionary(
+                        kvp => kvp.Key,
+                        kvp => kvp.Value!.Errors.Select(e => e.ErrorMessage).ToArray()
+                    );
+
+                return BadRequest(ApiResponse<object>.ErrorResponse(
+                    "Validation failed",
+                    errors));
             }
 
             // Validate ParentCategoryId if provided
-            if (categoryDto.ParentCategoryId.HasValue)
+            if (request.ParentCategoryId.HasValue)
             {
-                var parentCategory = _categoryService.GetCategoryById(categoryDto.ParentCategoryId.Value);
+                var parentCategory = _categoryService.GetCategoryById(request.ParentCategoryId.Value);
                 if (parentCategory == null)
                 {
-                    return BadRequest(new { message = "Parent category does not exist" });
+                    return BadRequest(ApiResponse<object>.ErrorResponse(
+                        "Parent category does not exist"));
                 }
             }
 
-            var category = new Category
+            var categoryModel = new CategoryModel
             {
-                CategoryName = categoryDto.CategoryName,
-                CategoryDesciption = categoryDto.CategoryDesciption,
-                ParentCategoryId = categoryDto.ParentCategoryId,
-                IsActive = categoryDto.IsActive
+                CategoryName = request.CategoryName,
+                CategoryDesciption = request.CategoryDesciption,
+                ParentCategoryId = request.ParentCategoryId,
+                IsActive = request.IsActive ?? true
             };
 
-            _categoryService.CreateCategory(category);
-            return CreatedAtAction(nameof(Get), new { id = category.CategoryId }, category);
+            var createdCategory = _categoryService.CreateCategory(categoryModel);
+            var response = MapToResponse(createdCategory);
+
+            return CreatedAtAction(
+                nameof(GetCategoryById),
+                new { id = response.CategoryId },
+                ApiResponse<CategoryResponse>.SuccessResponse(
+                    response,
+                    "Category created successfully"));
         }
 
+        /// <summary>
+        /// PUT /api/categories/{id} - Update existing category
+        /// </summary>
+        /// <param name="id">Category ID</param>
+        /// <param name="request">Updated category data</param>
+        /// <returns>No content on success</returns>
         [HttpPut("{id}")]
-        public IActionResult Put(short id, [FromBody] UpdateCategoryRequest categoryDto)
+        [Authorize]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
+        public IActionResult UpdateCategory(short id, [FromBody] UpdateCategoryRequest request)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                var errors = ModelState
+                    .Where(x => x.Value?.Errors.Count > 0)
+                    .ToDictionary(
+                        kvp => kvp.Key,
+                        kvp => kvp.Value!.Errors.Select(e => e.ErrorMessage).ToArray()
+                    );
+
+                return BadRequest(ApiResponse<object>.ErrorResponse(
+                    "Validation failed",
+                    errors));
             }
 
             var existingCategory = _categoryService.GetCategoryById(id);
             if (existingCategory == null)
             {
-                return NotFound();
+                return NotFound(ApiResponse<object>.ErrorResponse(
+                    $"Category with ID {id} not found"));
             }
 
             // Validate ParentCategoryId if provided
-            if (categoryDto.ParentCategoryId.HasValue && categoryDto.ParentCategoryId.Value != id)
+            if (request.ParentCategoryId.HasValue)
             {
-                var parentCategory = _categoryService.GetCategoryById(categoryDto.ParentCategoryId.Value);
+                if (request.ParentCategoryId.Value == id)
+                {
+                    return BadRequest(ApiResponse<object>.ErrorResponse(
+                        "A category cannot be its own parent"));
+                }
+
+                var parentCategory = _categoryService.GetCategoryById(request.ParentCategoryId.Value);
                 if (parentCategory == null)
                 {
-                    return BadRequest(new { message = "Parent category does not exist" });
+                    return BadRequest(ApiResponse<object>.ErrorResponse(
+                        "Parent category does not exist"));
                 }
             }
-            else if (categoryDto.ParentCategoryId.HasValue && categoryDto.ParentCategoryId.Value == id)
+
+            var updateModel = new CategoryModel
             {
-                return BadRequest(new { message = "A category cannot be its own parent" });
-            }
+                CategoryName = request.CategoryName,
+                CategoryDesciption = request.CategoryDesciption,
+                ParentCategoryId = request.ParentCategoryId,
+                IsActive = request.IsActive ?? true
+            };
 
-            existingCategory.CategoryName = categoryDto.CategoryName;
-            existingCategory.CategoryDesciption = categoryDto.CategoryDesciption;
-            existingCategory.ParentCategoryId = categoryDto.ParentCategoryId;
-            existingCategory.IsActive = categoryDto.IsActive;
+            _categoryService.UpdateCategory(id, updateModel);
 
-            _categoryService.UpdateCategory(existingCategory);
-            return NoContent();
+            return Ok(ApiResponse<object>.SuccessResponse(
+                null,
+                "Category updated successfully"));
         }
 
+        /// <summary>
+        /// DELETE /api/categories/{id} - Delete category
+        /// </summary>
+        /// <param name="id">Category ID</param>
+        /// <returns>No content on success</returns>
         [HttpDelete("{id}")]
-        public IActionResult Delete(short id)
+        [Authorize(Roles = "Admin")]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
+        public IActionResult DeleteCategory(short id)
         {
+            var existingCategory = _categoryService.GetCategoryById(id);
+            if (existingCategory == null)
+            {
+                return NotFound(ApiResponse<object>.ErrorResponse(
+                    $"Category with ID {id} not found"));
+            }
+
             var result = _categoryService.DeleteCategory(id);
             if (!result)
             {
-                return BadRequest(new { message = "Cannot delete category with existing news articles" });
+                return BadRequest(ApiResponse<object>.ErrorResponse(
+                    "Cannot delete category with existing news articles"));
             }
-            return NoContent();
+
+            return Ok(ApiResponse<object>.SuccessResponse(
+                null,
+                "Category deleted successfully"));
+        }
+
+        /// <summary>
+        /// Maps Business Model to Response Model
+        /// </summary>
+        private CategoryResponse MapToResponse(CategoryModel model)
+        {
+            return new CategoryResponse
+            {
+                CategoryId = model.CategoryId,
+                CategoryName = model.CategoryName,
+                CategoryDesciption = model.CategoryDesciption,
+                ParentCategoryId = model.ParentCategoryId,
+                ParentCategoryName = model.ParentCategoryName,
+                IsActive = model.IsActive
+            };
         }
     }
 }

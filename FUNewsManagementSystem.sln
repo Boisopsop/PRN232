@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35514.174 d17.12
+VisualStudioVersion = 17.12.35514.174
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FUNewsManagementSystem", "FUNewsManagementSystem\FUNewsManagementSystem.csproj", "{9A54D9B2-432D-4EB0-B91F-B460305356BB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PRN232.FUNewsManagement.API", "FUNewsManagementSystem\PRN232.FUNewsManagement.API.csproj", "{9A54D9B2-432D-4EB0-B91F-B460305356BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceLayer", "ServiceLayer\ServiceLayer.csproj", "{D5C3C159-26F8-4AD2-A056-CF81344F2F0D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PRN232.FUNewsManagement.Services", "ServiceLayer\PRN232.FUNewsManagement.Services.csproj", "{D5C3C159-26F8-4AD2-A056-CF81344F2F0D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepositoryLayer", "RepositoryLayer\RepositoryLayer.csproj", "{31CB0A30-90FE-4EDF-8566-279ED1960F4F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PRN232.FUNewsManagement.Repo", "RepositoryLayer\PRN232.FUNewsManagement.Repo.csproj", "{31CB0A30-90FE-4EDF-8566-279ED1960F4F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

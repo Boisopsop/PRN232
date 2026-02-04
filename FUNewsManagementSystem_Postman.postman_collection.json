@@ -1,45 +1,364 @@
 {
   "info": {
     "_postman_id": "funews-collection-001",
-    "name": "FU News Management System",
-    "description": "Complete API collection for News Management System",
+    "name": "FU News Management System API",
+    "description": "API v1 - FU News Management System\n\n**Mặc định:** http://localhost:8080 (Docker)\n\n**Nếu chạy local (dotnet run):** Đổi baseUrl thành http://localhost:5208\n\n**Cách đổi baseUrl:**\n1. Click vào collection \"FU News Management System API\"\n2. Vào tab Variables\n3. Đổi giá trị baseUrl",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{access_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "access_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "created_article_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "created_category_id",
+      "value": "",
+      "type": "string"
+    }
+  ],
   "item": [
     {
-      "name": "Categories",
+      "name": "1. Authentication",
       "item": [
         {
-          "name": "Get All Categories",
+          "name": "Login as Admin",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Login successful', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "if (pm.response.code === 200) {",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData.data && jsonData.data.token) {",
+                  "        pm.collectionVariables.set('access_token', jsonData.data.token);",
+                  "        console.log('✅ Token saved!');",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
           "request": {
-            "method": "GET",
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
             "header": [
               {
-                "key": "Accept",
+                "key": "Content-Type",
                 "value": "application/json"
               }
             ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"accountEmail\": \"admin@FUNewsManagementSystem.org\",\n  \"accountPassword\": \"@@abc123@@\"\n}"
+            },
             "url": {
-              "raw": "{{baseUrl}}/categories",
-              "host": ["{{baseUrl}}"],
-              "path": ["categories"]
+              "raw": "{{baseUrl}}/api/v1/auth/login"
             }
           }
         },
         {
-          "name": "Get Active Categories",
+          "name": "Login as Lecturer (Emma William)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Login successful', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "if (pm.response.code === 200) {",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData.data && jsonData.data.token) {",
+                  "        pm.collectionVariables.set('access_token', jsonData.data.token);",
+                  "        console.log('✅ Token saved!');",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
           "request": {
-            "method": "GET",
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
             "header": [
               {
-                "key": "Accept",
+                "key": "Content-Type",
                 "value": "application/json"
               }
             ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"accountEmail\": \"EmmaWilliam@FUNewsManagement.org\",\n  \"accountPassword\": \"@1\"\n}"
+            },
             "url": {
-              "raw": "{{baseUrl}}/categories/active",
-              "host": ["{{baseUrl}}"],
-              "path": ["categories", "active"]
+              "raw": "{{baseUrl}}/api/v1/auth/login"
+            }
+          }
+        },
+        {
+          "name": "Login as Staff (Isabella David)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Login successful', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "if (pm.response.code === 200) {",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData.data && jsonData.data.token) {",
+                  "        pm.collectionVariables.set('access_token', jsonData.data.token);",
+                  "        console.log('✅ Token saved!');",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"accountEmail\": \"IsabellaDavid@FUNewsManagement.org\",\n  \"accountPassword\": \"@1\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/auth/login"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. News Articles",
+      "item": [
+        {
+          "name": "Get All News Articles",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Response is 200 OK', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Response has pagination data', function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.data).to.have.property('items');",
+                  "    pm.expect(jsonData.data).to.have.property('totalItems');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/news-articles?page=1&pageSize=10"
+            }
+          }
+        },
+        {
+          "name": "Search News by Title",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/news-articles?title=Alumni&page=1&pageSize=5"
+            }
+          }
+        },
+        {
+          "name": "Get News Article by ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Returns single article', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.data).to.have.property('newsArticleId');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/news-articles/1"
+            }
+          }
+        },
+        {
+          "name": "Create News Article (Need Login)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Article created successfully', function () {",
+                  "    pm.response.to.have.status(201);",
+                  "    var jsonData = pm.response.json();",
+                  "    ",
+                  "    if (jsonData.data && jsonData.data.newsArticleId) {",
+                  "        pm.collectionVariables.set('created_article_id', jsonData.data.newsArticleId);",
+                  "        console.log('✅ Created article ID: ' + jsonData.data.newsArticleId);",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"newsArticleId\": \"test-article-001\",\n  \"newsTitle\": \"Test News Article from Postman\",\n  \"headline\": \"This is a test headline\",\n  \"newsContent\": \"This is test content for the news article created via Postman.\",\n  \"newsSource\": \"Postman Test\",\n  \"categoryId\": 1,\n  \"newsStatus\": true,\n  \"tagIds\": [1, 2]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/news-articles"
+            }
+          }
+        },
+        {
+          "name": "Update News Article (Need Login)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Article updated successfully', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"newsTitle\": \"Updated Test Article\",\n  \"headline\": \"Updated headline\",\n  \"newsContent\": \"Updated content from Postman.\",\n  \"newsSource\": \"Postman Update\",\n  \"categoryId\": 1,\n  \"newsStatus\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/news-articles/{{created_article_id}}"
+            }
+          }
+        },
+        {
+          "name": "Delete News Article (Need Login)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Article deleted successfully', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/news-articles/{{created_article_id}}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Categories",
+      "item": [
+        {
+          "name": "Get All Categories",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Categories retrieved', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.data.items).to.be.an('array');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/categories?page=1&pageSize=10"
             }
           }
         },
@@ -47,48 +366,32 @@
           "name": "Get Category by ID",
           "request": {
             "method": "GET",
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
+            "header": [],
             "url": {
-              "raw": "{{baseUrl}}/categories/1",
-              "host": ["{{baseUrl}}"],
-              "path": ["categories", "1"]
+              "raw": "{{baseUrl}}/api/v1/categories/1"
             }
           }
         },
         {
-          "name": "Search Categories",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
+          "name": "Create Category (Admin Only)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Category created', function () {",
+                  "    pm.response.to.have.status(201);",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData.data && jsonData.data.categoryId) {",
+                  "        pm.collectionVariables.set('created_category_id', jsonData.data.categoryId);",
+                  "        console.log('✅ Created category ID: ' + jsonData.data.categoryId);",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
               }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/categories/search?name=Technology&isActive=true",
-              "host": ["{{baseUrl}}"],
-              "path": ["categories", "search"],
-              "query": [
-                {
-                  "key": "name",
-                  "value": "Technology"
-                },
-                {
-                  "key": "isActive",
-                  "value": "true"
-                }
-              ]
             }
-          }
-        },
-        {
-          "name": "Create Category (Root)",
+          ],
           "request": {
             "method": "POST",
             "header": [
@@ -99,38 +402,15 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"categoryName\": \"Technology\",\n  \"categoryDesciption\": \"Technology and IT news\",\n  \"parentCategoryId\": null,\n  \"isActive\": true\n}"
+              "raw": "{\n  \"categoryName\": \"Test Category\",\n  \"categoryDesciption\": \"Test category from Postman\",\n  \"isActive\": true\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/categories",
-              "host": ["{{baseUrl}}"],
-              "path": ["categories"]
+              "raw": "{{baseUrl}}/api/v1/categories"
             }
           }
         },
         {
-          "name": "Create Sub-Category",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"categoryName\": \"Programming\",\n  \"categoryDesciption\": \"Programming languages and frameworks\",\n  \"parentCategoryId\": 1,\n  \"isActive\": true\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}/categories",
-              "host": ["{{baseUrl}}"],
-              "path": ["categories"]
-            }
-          }
-        },
-        {
-          "name": "Update Category",
+          "name": "Update Category (Admin Only)",
           "request": {
             "method": "PUT",
             "header": [
@@ -141,231 +421,35 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"categoryId\": 1,\n  \"categoryName\": \"Tech News\",\n  \"categoryDesciption\": \"Latest technology news\",\n  \"parentCategoryId\": null,\n  \"isActive\": true\n}"
+              "raw": "{\n  \"categoryName\": \"Updated Category\",\n  \"categoryDesciption\": \"Updated description\",\n  \"isActive\": true\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/categories/1",
-              "host": ["{{baseUrl}}"],
-              "path": ["categories", "1"]
+              "raw": "{{baseUrl}}/api/v1/categories/{{created_category_id}}"
             }
           }
         },
         {
-          "name": "Delete Category",
+          "name": "Delete Category (Admin Only)",
           "request": {
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/categories/1",
-              "host": ["{{baseUrl}}"],
-              "path": ["categories", "1"]
+              "raw": "{{baseUrl}}/api/v1/categories/{{created_category_id}}"
             }
           }
         }
       ]
     },
     {
-      "name": "News Articles",
+      "name": "4. System Accounts",
       "item": [
         {
-          "name": "Get All Active News",
+          "name": "Get All Accounts (Admin Only)",
           "request": {
             "method": "GET",
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/newsarticles",
-              "host": ["{{baseUrl}}"],
-              "path": ["newsarticles"]
-            }
-          }
-        },
-        {
-          "name": "Get All News",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/newsarticles/all",
-              "host": ["{{baseUrl}}"],
-              "path": ["newsarticles", "all"]
-            }
-          }
-        },
-        {
-          "name": "Get News by ID",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/newsarticles/1",
-              "host": ["{{baseUrl}}"],
-              "path": ["newsarticles", "1"]
-            }
-          }
-        },
-        {
-          "name": "Get My News",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/newsarticles/mynews",
-              "host": ["{{baseUrl}}"],
-              "path": ["newsarticles", "mynews"]
-            }
-          }
-        },
-        {
-          "name": "Get News by Date Range",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/newsarticles/report?startDate=2024-01-01&endDate=2024-12-31",
-              "host": ["{{baseUrl}}"],
-              "path": ["newsarticles", "report"],
-              "query": [
-                {
-                  "key": "startDate",
-                  "value": "2024-01-01"
-                },
-                {
-                  "key": "endDate",
-                  "value": "2024-12-31"
-                }
-              ]
-            }
-          }
-        },
-        {
-          "name": "Search News",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/newsarticles/search?title=ai&categoryId=1&status=true",
-              "host": ["{{baseUrl}}"],
-              "path": ["newsarticles", "search"],
-              "query": [
-                {
-                  "key": "title",
-                  "value": "ai"
-                },
-                {
-                  "key": "categoryId",
-                  "value": "1"
-                },
-                {
-                  "key": "status",
-                  "value": "true"
-                }
-              ]
-            }
-          }
-        },
-        {
-          "name": "Create News Article",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"newsArticleId\": \"news-001\",\n  \"newsTitle\": \"AI Revolution in 2024\",\n  \"headline\": \"Artificial Intelligence transforming industries\",\n  \"newsContent\": \"In-depth analysis of AI impact on modern business...\",\n  \"newsSource\": \"TechNews Daily\",\n  \"categoryId\": 1,\n  \"newsStatus\": true,\n  \"tagIds\": [1, 2]\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}/newsarticles",
-              "host": ["{{baseUrl}}"],
-              "path": ["newsarticles"]
-            }
-          }
-        },
-        {
-          "name": "Update News Article",
-          "request": {
-            "method": "PUT",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"newsArticleId\": \"news-001\",\n  \"newsTitle\": \"AI Revolution in 2024 (Updated)\",\n  \"headline\": \"Artificial Intelligence transforming industries worldwide\",\n  \"newsContent\": \"Updated in-depth analysis...\",\n  \"newsSource\": \"TechNews Daily\",\n  \"categoryId\": 1,\n  \"newsStatus\": true,\n  \"tagIds\": [1, 2, 3]\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}/newsarticles/news-001",
-              "host": ["{{baseUrl}}"],
-              "path": ["newsarticles", "news-001"]
-            }
-          }
-        },
-        {
-          "name": "Delete News Article",
-          "request": {
-            "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/newsarticles/news-001",
-              "host": ["{{baseUrl}}"],
-              "path": ["newsarticles", "news-001"]
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "System Accounts",
-      "item": [
-        {
-          "name": "Get All Accounts",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/systemaccounts",
-              "host": ["{{baseUrl}}"],
-              "path": ["systemaccounts"]
+              "raw": "{{baseUrl}}/api/v1/system-accounts?page=1&pageSize=10"
             }
           }
         },
@@ -373,71 +457,14 @@
           "name": "Get Account by ID",
           "request": {
             "method": "GET",
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
+            "header": [],
             "url": {
-              "raw": "{{baseUrl}}/systemaccounts/1",
-              "host": ["{{baseUrl}}"],
-              "path": ["systemaccounts", "1"]
+              "raw": "{{baseUrl}}/api/v1/system-accounts/1"
             }
           }
         },
         {
-          "name": "Get Account by Email",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/systemaccounts/email?email=admin@example.com",
-              "host": ["{{baseUrl}}"],
-              "path": ["systemaccounts", "email"],
-              "query": [
-                {
-                  "key": "email",
-                  "value": "admin@example.com"
-                }
-              ]
-            }
-          }
-        },
-        {
-          "name": "Search Accounts",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/systemaccounts/search?name=admin&role=1",
-              "host": ["{{baseUrl}}"],
-              "path": ["systemaccounts", "search"],
-              "query": [
-                {
-                  "key": "name",
-                  "value": "admin"
-                },
-                {
-                  "key": "role",
-                  "value": "1"
-                }
-              ]
-            }
-          }
-        },
-        {
-          "name": "Create Account",
+          "name": "Create Account (Admin Only)",
           "request": {
             "method": "POST",
             "header": [
@@ -448,56 +475,60 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"accountName\": \"John Doe\",\n  \"accountEmail\": \"john@example.com\",\n  \"accountPassword\": \"SecurePass123!\",\n  \"accountRole\": 2,\n  \"isActive\": true\n}"
+              "raw": "{\n  \"accountName\": \"Test User\",\n  \"accountEmail\": \"testuser@FUNewsManagement.org\",\n  \"accountPassword\": \"@1\",\n  \"accountRole\": 1\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/systemaccounts",
-              "host": ["{{baseUrl}}"],
-              "path": ["systemaccounts"]
-            }
-          }
-        },
-        {
-          "name": "Update Account",
-          "request": {
-            "method": "PUT",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"accountId\": 1,\n  \"accountName\": \"John Smith\",\n  \"accountEmail\": \"john.smith@example.com\",\n  \"accountPassword\": \"NewPass123!\",\n  \"accountRole\": 2,\n  \"isActive\": true\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}/systemaccounts/1",
-              "host": ["{{baseUrl}}"],
-              "path": ["systemaccounts", "1"]
-            }
-          }
-        },
-        {
-          "name": "Delete Account",
-          "request": {
-            "method": "DELETE",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/systemaccounts/1",
-              "host": ["{{baseUrl}}"],
-              "path": ["systemaccounts", "1"]
+              "raw": "{{baseUrl}}/api/v1/system-accounts"
             }
           }
         }
       ]
     },
     {
-      "name": "Auth",
+      "name": "5. Error Tests",
       "item": [
         {
-          "name": "Login",
+          "name": "Test 404 - Article Not Found",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Returns 404', function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
           "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/news-articles/99999"
+            }
+          }
+        },
+        {
+          "name": "Test 401 - Unauthorized (No Token)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Returns 401', function () {",
+                  "    pm.response.to.have.status(401);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
             "method": "POST",
             "header": [
               {
@@ -507,23 +538,14 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"admin123\"\n}"
+              "raw": "{\n  \"newsTitle\": \"Test\",\n  \"headline\": \"Test\",\n  \"categoryId\": 1\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/auth/login",
-              "host": ["{{baseUrl}}"],
-              "path": ["auth", "login"]
+              "raw": "{{baseUrl}}/api/v1/news-articles"
             }
           }
         }
       ]
-    }
-  ],
-  "variable": [
-    {
-      "key": "baseUrl",
-      "value": "http://localhost:8080/api",
-      "type": "string"
     }
   ]
 }

@@ -1,5 +1,8 @@
 namespace ServiceLayer.Models
 {
+    /// <summary>
+    /// Business model for News Article - used in Service layer
+    /// </summary>
     public class NewsArticleModel
     {
         public string NewsArticleId { get; set; } = string.Empty;
@@ -14,5 +17,9 @@ namespace ServiceLayer.Models
         public short? UpdatedById { get; set; }
         public DateTime? ModifiedDate { get; set; }
         public List<int> TagIds { get; set; } = new List<int>();
+        
+        // Additional details for responses
+        public string? CategoryName { get; set; }
+        public string? CreatedByName { get; set; }
     }
 }

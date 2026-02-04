@@ -1,0 +1,801 @@
+{
+  "info": {
+    "name": "FU News Management API Tests",
+    "description": "Postman Collection for testing FU News Management API with JSON Schema validation",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://localhost:7001"
+    },
+    {
+      "key": "adminToken",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login - Admin",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Test HTTP Status Code",
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "// Test Response Time",
+                  "pm.test('Response time is less than 2000ms', function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "// Define JSON Schema for Login Response",
+                  "const loginResponseSchema = {",
+                  "    type: 'object',",
+                  "    required: ['success', 'message', 'data'],",
+                  "    properties: {",
+                  "        success: { type: 'boolean' },",
+                  "        message: { type: 'string' },",
+                  "        data: {",
+                  "            type: 'object',",
+                  "            required: ['token', 'email', 'role', 'roleName'],",
+                  "            properties: {",
+                  "                token: { type: 'string' },",
+                  "                accountId: { type: ['integer', 'null'] },",
+                  "                email: { type: 'string' },",
+                  "                name: { type: ['string', 'null'] },",
+                  "                role: { type: 'integer' },",
+                  "                roleName: { type: 'string' }",
+                  "            }",
+                  "        },",
+                  "        errors: { type: ['array', 'null'] }",
+                  "    }",
+                  "};",
+                  "",
+                  "// Validate JSON Schema",
+                  "pm.test('Response matches JSON schema', function () {",
+                  "    pm.response.to.have.jsonSchema(loginResponseSchema);",
+                  "});",
+                  "",
+                  "// Save token for subsequent requests",
+                  "pm.test('Token is saved to environment', function () {",
+                  "    const response = pm.response.json();",
+                  "    if (response.success && response.data && response.data.token) {",
+                  "        pm.collectionVariables.set('adminToken', response.data.token);",
+                  "        pm.expect(response.data.token).to.be.a('string');",
+                  "    }",
+                  "});",
+                  "",
+                  "// Test success field",
+                  "pm.test('Success is true', function () {",
+                  "    const response = pm.response.json();",
+                  "    pm.expect(response.success).to.be.true;",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"admin@FUNewsManagementSystem.org\",\n    \"password\": \"@@abc123@@\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Login - Invalid Credentials",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Test HTTP Status Code for invalid login",
+                  "pm.test('Status code is 401 Unauthorized', function () {",
+                  "    pm.response.to.have.status(401);",
+                  "});",
+                  "",
+                  "// Define JSON Schema for Error Response",
+                  "const errorResponseSchema = {",
+                  "    type: 'object',",
+                  "    required: ['success', 'message'],",
+                  "    properties: {",
+                  "        success: { type: 'boolean', enum: [false] },",
+                  "        message: { type: 'string' },",
+                  "        data: { type: 'null' },",
+                  "        errors: { type: ['array', 'null'] }",
+                  "    }",
+                  "};",
+                  "",
+                  "// Validate JSON Schema",
+                  "pm.test('Error response matches JSON schema', function () {",
+                  "    pm.response.to.have.jsonSchema(errorResponseSchema);",
+                  "});",
+                  "",
+                  "// Test success field is false",
+                  "pm.test('Success is false', function () {",
+                  "    const response = pm.response.json();",
+                  "    pm.expect(response.success).to.be.false;",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"invalid@email.com\",\n    \"password\": \"wrongpassword\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "login"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Categories",
+      "item": [
+        {
+          "name": "Get All Categories (Paginated)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Test HTTP Status Code",
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "// Define JSON Schema for Paginated Response",
+                  "const paginatedCategorySchema = {",
+                  "    type: 'object',",
+                  "    required: ['success', 'message', 'data'],",
+                  "    properties: {",
+                  "        success: { type: 'boolean' },",
+                  "        message: { type: 'string' },",
+                  "        data: {",
+                  "            type: 'object',",
+                  "            required: ['items', 'page', 'pageSize', 'totalItems', 'totalPages'],",
+                  "            properties: {",
+                  "                items: {",
+                  "                    type: 'array',",
+                  "                    items: {",
+                  "                        type: 'object',",
+                  "                        required: ['categoryID', 'categoryName', 'isActive'],",
+                  "                        properties: {",
+                  "                            categoryID: { type: 'integer' },",
+                  "                            categoryName: { type: 'string' },",
+                  "                            categoryDesciption: { type: 'string' },",
+                  "                            parentCategoryID: { type: ['integer', 'null'] },",
+                  "                            parentCategoryName: { type: ['string', 'null'] },",
+                  "                            isActive: { type: 'boolean' },",
+                  "                            statusText: { type: 'string' }",
+                  "                        }",
+                  "                    }",
+                  "                },",
+                  "                page: { type: 'integer', minimum: 1 },",
+                  "                pageSize: { type: 'integer', minimum: 1, maximum: 50 },",
+                  "                totalItems: { type: 'integer', minimum: 0 },",
+                  "                totalPages: { type: 'integer', minimum: 0 }",
+                  "            }",
+                  "        },",
+                  "        errors: { type: ['array', 'null'] }",
+                  "    }",
+                  "};",
+                  "",
+                  "// Validate JSON Schema",
+                  "pm.test('Response matches paginated category schema', function () {",
+                  "    pm.response.to.have.jsonSchema(paginatedCategorySchema);",
+                  "});",
+                  "",
+                  "// Test pagination values",
+                  "pm.test('Pagination values are correct', function () {",
+                  "    const response = pm.response.json();",
+                  "    pm.expect(response.data.page).to.be.at.least(1);",
+                  "    pm.expect(response.data.pageSize).to.be.at.most(50);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/categories?page=1&pageSize=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "categories"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "pageSize", "value": "10" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Category By ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Test HTTP Status Code",
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "// Define JSON Schema for Category Detail Response",
+                  "const categoryDetailSchema = {",
+                  "    type: 'object',",
+                  "    required: ['success', 'message', 'data'],",
+                  "    properties: {",
+                  "        success: { type: 'boolean' },",
+                  "        message: { type: 'string' },",
+                  "        data: {",
+                  "            type: 'object',",
+                  "            required: ['categoryID', 'categoryName', 'isActive'],",
+                  "            properties: {",
+                  "                categoryID: { type: 'integer' },",
+                  "                categoryName: { type: 'string' },",
+                  "                categoryDesciption: { type: 'string' },",
+                  "                parentCategoryID: { type: ['integer', 'null'] },",
+                  "                parentCategoryName: { type: ['string', 'null'] },",
+                  "                isActive: { type: 'boolean' },",
+                  "                statusText: { type: 'string' },",
+                  "                totalNewsArticles: { type: 'integer' },",
+                  "                childCategories: { type: 'array' }",
+                  "            }",
+                  "        },",
+                  "        errors: { type: ['array', 'null'] }",
+                  "    }",
+                  "};",
+                  "",
+                  "// Validate JSON Schema",
+                  "pm.test('Response matches category detail schema', function () {",
+                  "    pm.response.to.have.jsonSchema(categoryDetailSchema);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/categories/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "categories", "1"]
+            }
+          }
+        },
+        {
+          "name": "Get Category - Not Found",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Test HTTP Status Code for 404",
+                  "pm.test('Status code is 404 Not Found', function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});",
+                  "",
+                  "// Define JSON Schema for Error Response",
+                  "const notFoundSchema = {",
+                  "    type: 'object',",
+                  "    required: ['success', 'message'],",
+                  "    properties: {",
+                  "        success: { type: 'boolean', enum: [false] },",
+                  "        message: { type: 'string' },",
+                  "        data: { type: 'null' },",
+                  "        errors: { type: ['array', 'null'] }",
+                  "    }",
+                  "};",
+                  "",
+                  "// Validate JSON Schema",
+                  "pm.test('Response matches 404 schema', function () {",
+                  "    pm.response.to.have.jsonSchema(notFoundSchema);",
+                  "});",
+                  "",
+                  "pm.test('Message indicates not found', function () {",
+                  "    const response = pm.response.json();",
+                  "    pm.expect(response.message.toLowerCase()).to.include('not found');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/categories/99999",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "categories", "99999"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Accounts",
+      "item": [
+        {
+          "name": "Get All Accounts",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Test HTTP Status Code",
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "// Define JSON Schema for Paginated Account Response",
+                  "const paginatedAccountSchema = {",
+                  "    type: 'object',",
+                  "    required: ['success', 'message', 'data'],",
+                  "    properties: {",
+                  "        success: { type: 'boolean' },",
+                  "        message: { type: 'string' },",
+                  "        data: {",
+                  "            type: 'object',",
+                  "            required: ['items', 'page', 'pageSize', 'totalItems', 'totalPages'],",
+                  "            properties: {",
+                  "                items: {",
+                  "                    type: 'array',",
+                  "                    items: {",
+                  "                        type: 'object',",
+                  "                        required: ['accountID', 'accountName', 'accountEmail', 'accountRole'],",
+                  "                        properties: {",
+                  "                            accountID: { type: 'integer' },",
+                  "                            accountName: { type: 'string' },",
+                  "                            accountEmail: { type: 'string' },",
+                  "                            accountRole: { type: 'integer' },",
+                  "                            roleName: { type: 'string' }",
+                  "                        }",
+                  "                    }",
+                  "                },",
+                  "                page: { type: 'integer' },",
+                  "                pageSize: { type: 'integer' },",
+                  "                totalItems: { type: 'integer' },",
+                  "                totalPages: { type: 'integer' }",
+                  "            }",
+                  "        },",
+                  "        errors: { type: ['array', 'null'] }",
+                  "    }",
+                  "};",
+                  "",
+                  "// Validate JSON Schema",
+                  "pm.test('Response matches paginated account schema', function () {",
+                  "    pm.response.to.have.jsonSchema(paginatedAccountSchema);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "{{adminToken}}" }]
+            },
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/accounts?page=1&pageSize=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "accounts"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "pageSize", "value": "10" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Accounts - Unauthorized",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Test HTTP Status Code for 401 Unauthorized",
+                  "pm.test('Status code is 401 Unauthorized (no token)', function () {",
+                  "    pm.response.to.have.status(401);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/accounts",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "accounts"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "News Articles",
+      "item": [
+        {
+          "name": "Get All News Articles",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Test HTTP Status Code",
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "// Define JSON Schema for Paginated News Response",
+                  "const paginatedNewsSchema = {",
+                  "    type: 'object',",
+                  "    required: ['success', 'message', 'data'],",
+                  "    properties: {",
+                  "        success: { type: 'boolean' },",
+                  "        message: { type: 'string' },",
+                  "        data: {",
+                  "            type: 'object',",
+                  "            required: ['items', 'page', 'pageSize', 'totalItems', 'totalPages'],",
+                  "            properties: {",
+                  "                items: {",
+                  "                    type: 'array',",
+                  "                    items: {",
+                  "                        type: 'object',",
+                  "                        required: ['newsArticleID', 'newsTitle', 'headline', 'createdDate'],",
+                  "                        properties: {",
+                  "                            newsArticleID: { type: 'string' },",
+                  "                            newsTitle: { type: 'string' },",
+                  "                            headline: { type: 'string' },",
+                  "                            createdDate: { type: 'string' },",
+                  "                            categoryID: { type: 'integer' },",
+                  "                            categoryName: { type: 'string' },",
+                  "                            newsStatus: { type: 'boolean' },",
+                  "                            statusText: { type: 'string' },",
+                  "                            createdByID: { type: 'integer' },",
+                  "                            createdByName: { type: 'string' },",
+                  "                            modifiedDate: { type: ['string', 'null'] }",
+                  "                        }",
+                  "                    }",
+                  "                },",
+                  "                page: { type: 'integer' },",
+                  "                pageSize: { type: 'integer' },",
+                  "                totalItems: { type: 'integer' },",
+                  "                totalPages: { type: 'integer' }",
+                  "            }",
+                  "        },",
+                  "        errors: { type: ['array', 'null'] }",
+                  "    }",
+                  "};",
+                  "",
+                  "// Validate JSON Schema",
+                  "pm.test('Response matches paginated news schema', function () {",
+                  "    pm.response.to.have.jsonSchema(paginatedNewsSchema);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/newsarticles?page=1&pageSize=10&sortBy=createdDate&isDescending=true",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "newsarticles"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "pageSize", "value": "10" },
+                { "key": "sortBy", "value": "createdDate" },
+                { "key": "isDescending", "value": "true" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get News Article By ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Test HTTP Status Code",
+                  "const status = pm.response.code;",
+                  "pm.test('Status code is 200 or 404', function () {",
+                  "    pm.expect([200, 404]).to.include(status);",
+                  "});",
+                  "",
+                  "// Define JSON Schema for News Detail (when found)",
+                  "if (status === 200) {",
+                  "    const newsDetailSchema = {",
+                  "        type: 'object',",
+                  "        required: ['success', 'message', 'data'],",
+                  "        properties: {",
+                  "            success: { type: 'boolean' },",
+                  "            message: { type: 'string' },",
+                  "            data: {",
+                  "                type: 'object',",
+                  "                required: ['newsArticleID', 'newsTitle', 'newsContent'],",
+                  "                properties: {",
+                  "                    newsArticleID: { type: 'string' },",
+                  "                    newsTitle: { type: 'string' },",
+                  "                    headline: { type: 'string' },",
+                  "                    createdDate: { type: 'string' },",
+                  "                    newsContent: { type: 'string' },",
+                  "                    newsSource: { type: 'string' },",
+                  "                    categoryID: { type: 'integer' },",
+                  "                    categoryName: { type: 'string' },",
+                  "                    newsStatus: { type: 'boolean' },",
+                  "                    tags: { type: 'array' }",
+                  "                }",
+                  "            },",
+                  "            errors: { type: ['array', 'null'] }",
+                  "        }",
+                  "    };",
+                  "    pm.test('Response matches news detail schema', function () {",
+                  "        pm.response.to.have.jsonSchema(newsDetailSchema);",
+                  "    });",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/newsarticles/NEWS0001",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "newsarticles", "NEWS0001"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tags",
+      "item": [
+        {
+          "name": "Get All Tags",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Test HTTP Status Code",
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "// Define JSON Schema for Tags List Response",
+                  "const tagsListSchema = {",
+                  "    type: 'object',",
+                  "    required: ['success', 'message', 'data'],",
+                  "    properties: {",
+                  "        success: { type: 'boolean' },",
+                  "        message: { type: 'string' },",
+                  "        data: {",
+                  "            type: 'array',",
+                  "            items: {",
+                  "                type: 'object',",
+                  "                required: ['tagID', 'tagName'],",
+                  "                properties: {",
+                  "                    tagID: { type: 'integer' },",
+                  "                    tagName: { type: 'string' },",
+                  "                    note: { type: 'string' }",
+                  "                }",
+                  "            }",
+                  "        },",
+                  "        errors: { type: ['array', 'null'] }",
+                  "    }",
+                  "};",
+                  "",
+                  "// Validate JSON Schema",
+                  "pm.test('Response matches tags list schema', function () {",
+                  "    pm.response.to.have.jsonSchema(tagsListSchema);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/tags",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tags"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reports",
+      "item": [
+        {
+          "name": "Get News Statistics",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Test HTTP Status Code",
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "// Define JSON Schema for Report Response",
+                  "const reportSchema = {",
+                  "    type: 'object',",
+                  "    required: ['success', 'message', 'data'],",
+                  "    properties: {",
+                  "        success: { type: 'boolean' },",
+                  "        message: { type: 'string' },",
+                  "        data: {",
+                  "            type: 'object',",
+                  "            required: ['startDate', 'endDate', 'totalNewsArticles', 'newsArticles'],",
+                  "            properties: {",
+                  "                startDate: { type: 'string' },",
+                  "                endDate: { type: 'string' },",
+                  "                totalNewsArticles: { type: 'integer' },",
+                  "                newsArticles: {",
+                  "                    type: 'array',",
+                  "                    items: {",
+                  "                        type: 'object',",
+                  "                        properties: {",
+                  "                            newsArticleID: { type: 'string' },",
+                  "                            newsTitle: { type: 'string' },",
+                  "                            createdDate: { type: 'string' },",
+                  "                            categoryName: { type: 'string' },",
+                  "                            createdByName: { type: 'string' },",
+                  "                            newsStatus: { type: 'boolean' },",
+                  "                            statusText: { type: 'string' }",
+                  "                        }",
+                  "                    }",
+                  "                }",
+                  "            }",
+                  "        },",
+                  "        errors: { type: ['array', 'null'] }",
+                  "    }",
+                  "};",
+                  "",
+                  "// Validate JSON Schema",
+                  "pm.test('Response matches report schema', function () {",
+                  "    pm.response.to.have.jsonSchema(reportSchema);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "{{adminToken}}" }]
+            },
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/reports/statistics?startDate=2024-01-01&endDate=2024-12-31",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "reports", "statistics"],
+              "query": [
+                { "key": "startDate", "value": "2024-01-01" },
+                { "key": "endDate", "value": "2024-12-31" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Validation Tests",
+      "item": [
+        {
+          "name": "Create Account - Validation Error",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Test HTTP Status Code for validation error",
+                  "pm.test('Status code is 400 Bad Request', function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "// Define JSON Schema for Validation Error Response",
+                  "const validationErrorSchema = {",
+                  "    type: 'object',",
+                  "    required: ['success', 'message'],",
+                  "    properties: {",
+                  "        success: { type: 'boolean', enum: [false] },",
+                  "        message: { type: 'string' },",
+                  "        data: { type: 'null' },",
+                  "        errors: {",
+                  "            type: 'array',",
+                  "            items: { type: 'string' },",
+                  "            minItems: 1",
+                  "        }",
+                  "    }",
+                  "};",
+                  "",
+                  "// Validate JSON Schema",
+                  "pm.test('Response matches validation error schema', function () {",
+                  "    pm.response.to.have.jsonSchema(validationErrorSchema);",
+                  "});",
+                  "",
+                  "// Test that errors array is not empty",
+                  "pm.test('Errors array contains validation messages', function () {",
+                  "    const response = pm.response.json();",
+                  "    pm.expect(response.errors).to.be.an('array').and.not.empty;",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "{{adminToken}}" }]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"accountName\": \"\",\n    \"accountEmail\": \"invalid-email\",\n    \"accountRole\": 5,\n    \"accountPassword\": \"123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/accounts",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "accounts"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

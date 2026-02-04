@@ -1,0 +1,59 @@
+# Build artifacts
+bin/
+obj/
+out/
+
+# IDE
+.vs/
+.vscode/
+*.user
+*.userosscache
+*.suo
+*.cache
+*.userprefs
+
+# Logs
+*.log
+logs/
+
+# Test results
+TestResults/
+
+# NuGet packages
+*.nupkg
+packages/
+
+# Runtime data
+*.pdb
+*.dll.config
+
+# Database files
+*.mdf
+*.ldf
+*.ndf
+
+# User-specific files
+*.rsuser
+*.sln.docstates
+*.suo
+*.user
+*.sln.ide/
+
+# Rider
+.idea/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+**/tmp/
+**/temp/
+
+# Secrets
+appsettings.*.json
+!appsettings.json
+!appsettings.Development.json
+
+# Docker
+.env.local

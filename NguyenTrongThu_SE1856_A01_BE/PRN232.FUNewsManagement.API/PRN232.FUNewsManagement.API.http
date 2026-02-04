@@ -1,0 +1,6 @@
+@PRN232.FUNewsManagement.API_HostAddress = http://localhost:5278
+
+GET {{PRN232.FUNewsManagement.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

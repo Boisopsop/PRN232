@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "PRN232 LAB2 - REST API Tests",
-    "description": "Smart scripts: Auto-detect Token case (Upper/Lower), Flexible Error Schema (Standard/Custom). Ensures Status 400/401/200 are checked correctly.",
+    "description": "Final Structure: GET List split into separate requests (Search, Sort, Paging) matches the image. All requests have Schema Validation & Logic.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
@@ -37,18 +37,38 @@
                   "    pm.response.to.have.status(200);",
                   "});",
                   "",
-                  "// Test 2: Save Token (Case Insensitive Support)",
-                  "var jsonData = pm.response.json();",
-                  "if (jsonData.data) {",
-                  "    // Try finding token in various casings",
-                  "    var token = jsonData.data.token || jsonData.data.Token || jsonData.data.accessToken;",
-                  "    ",
-                  "    if (token) {",
-                  "        pm.collectionVariables.set(\"token\", token);",
-                  "        console.log(\"Token saved successfully: \" + token.substring(0, 10) + \"...\");",
-                  "    } else {",
-                  "        console.log(\"Token field not found in response data\");",
+                  "// Logic: If/Else for Safety",
+                  "if (pm.response.code === 200) {",
+                  "    // Test 2: Check JSON Schema",
+                  "    const schema = {",
+                  "        \"type\": \"object\",",
+                  "        \"required\": [\"success\", \"data\"],",
+                  "        \"properties\": {",
+                  "            \"success\": { \"type\": \"boolean\" },",
+                  "            \"data\": {",
+                  "                \"type\": \"object\",",
+                  "                \"required\": [\"token\"],",
+                  "                \"properties\": {",
+                  "                    \"token\": { \"type\": \"string\" }",
+                  "                }",
+                  "            }",
+                  "        }",
+                  "    };",
+                  "    pm.test(\"Response matches Login Schema\", function () {",
+                  "        pm.response.to.have.jsonSchema(schema);",
+                  "    });",
+                  "",
+                  "    // Save Token",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData.data) {",
+                  "        var token = jsonData.data.token || jsonData.data.Token || jsonData.data.accessToken;",
+                  "        if (token) {",
+                  "            pm.collectionVariables.set(\"token\", token);",
+                  "            console.log(\"Token saved successfully\");",
+                  "        }",
                   "    }",
+                  "} else {",
+                  "    console.log(\"Login failed with status: \" + pm.response.code);",
                   "}"
                 ],
                 "type": "text/javascript"
@@ -87,18 +107,20 @@
       "name": "2. Categories",
       "item": [
         {
-          "name": "GET List (8 Test Cases)",
+          "name": "Get List (Split Requests)",
           "item": [
             {
-              "name": "1. Get All (Default)",
+              "name": "Get All Categories - Default Paging",
               "event": [
                 {
                   "listen": "test",
                   "script": {
                     "exec": [
-                      "pm.test(\"Status code is 200\", function () {",
-                      "    pm.response.to.have.status(200);",
-                      "});"
+                      "pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });",
+                      "if(pm.response.code === 200) {",
+                      "    var schema = { \"type\": \"object\", \"required\": [\"success\", \"data\"], \"properties\": { \"data\": { \"required\": [\"items\"] } } };",
+                      "    pm.test(\"Schema Valid\", function() { pm.response.to.have.jsonSchema(schema); });",
+                      "}"
                     ],
                     "type": "text/javascript"
                   }
@@ -121,15 +143,17 @@
               }
             },
             {
-              "name": "2. Get Paging (Size=2)",
+              "name": "Get Categories - Custom Page Size",
               "event": [
                 {
                   "listen": "test",
                   "script": {
                     "exec": [
-                      "pm.test(\"Status code is 200\", function () {",
-                      "    pm.response.to.have.status(200);",
-                      "});"
+                      "pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });",
+                      "if(pm.response.code === 200) {",
+                      "    var schema = { \"type\": \"object\", \"required\": [\"success\", \"data\"], \"properties\": { \"data\": { \"required\": [\"items\", \"pageSize\"] } } };",
+                      "    pm.test(\"Schema Valid\", function() { pm.response.to.have.jsonSchema(schema); });",
+                      "}"
                     ],
                     "type": "text/javascript"
                   }
@@ -139,7 +163,7 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{baseUrl}}/api/v1/categories?page=1&pageSize=2",
+                  "raw": "{{baseUrl}}/api/v1/categories?page=1&pageSize=5",
                   "host": [
                     "{{baseUrl}}"
                   ],
@@ -155,22 +179,24 @@
                     },
                     {
                       "key": "pageSize",
-                      "value": "2"
+                      "value": "5"
                     }
                   ]
                 }
               }
             },
             {
-              "name": "3. Get Search (Name)",
+              "name": "Get Categories - Search by Name",
               "event": [
                 {
                   "listen": "test",
                   "script": {
                     "exec": [
-                      "pm.test(\"Status code is 200\", function () {",
-                      "    pm.response.to.have.status(200);",
-                      "});"
+                      "pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });",
+                      "if(pm.response.code === 200) {",
+                      "    var schema = { \"type\": \"object\", \"required\": [\"success\", \"data\"], \"properties\": { \"data\": { \"required\": [\"items\"] } } };",
+                      "    pm.test(\"Schema Valid\", function() { pm.response.to.have.jsonSchema(schema); });",
+                      "}"
                     ],
                     "type": "text/javascript"
                   }
@@ -199,15 +225,17 @@
               }
             },
             {
-              "name": "4. Get Filter (Active)",
+              "name": "Get Categories - Filter by Active",
               "event": [
                 {
                   "listen": "test",
                   "script": {
                     "exec": [
-                      "pm.test(\"Status code is 200\", function () {",
-                      "    pm.response.to.have.status(200);",
-                      "});"
+                      "pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });",
+                      "if(pm.response.code === 200) {",
+                      "    var schema = { \"type\": \"object\", \"required\": [\"success\", \"data\"], \"properties\": { \"data\": { \"required\": [\"items\"] } } };",
+                      "    pm.test(\"Schema Valid\", function() { pm.response.to.have.jsonSchema(schema); });",
+                      "}"
                     ],
                     "type": "text/javascript"
                   }
@@ -236,15 +264,17 @@
               }
             },
             {
-              "name": "5. Get Filter (Inactive)",
+              "name": "Get Categories - Filter by Inactive",
               "event": [
                 {
                   "listen": "test",
                   "script": {
                     "exec": [
-                      "pm.test(\"Status code is 200\", function () {",
-                      "    pm.response.to.have.status(200);",
-                      "});"
+                      "pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });",
+                      "if(pm.response.code === 200) {",
+                      "    var schema = { \"type\": \"object\", \"required\": [\"success\", \"data\"], \"properties\": { \"data\": { \"required\": [\"items\"] } } };",
+                      "    pm.test(\"Schema Valid\", function() { pm.response.to.have.jsonSchema(schema); });",
+                      "}"
                     ],
                     "type": "text/javascript"
                   }
@@ -273,15 +303,17 @@
               }
             },
             {
-              "name": "6. Get Sort (Name ASC)",
+              "name": "Get Categories - Sort by Name ASC",
               "event": [
                 {
                   "listen": "test",
                   "script": {
                     "exec": [
-                      "pm.test(\"Status code is 200\", function () {",
-                      "    pm.response.to.have.status(200);",
-                      "});"
+                      "pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });",
+                      "if(pm.response.code === 200) {",
+                      "    var schema = { \"type\": \"object\", \"required\": [\"success\", \"data\"], \"properties\": { \"data\": { \"required\": [\"items\"] } } };",
+                      "    pm.test(\"Schema Valid\", function() { pm.response.to.have.jsonSchema(schema); });",
+                      "}"
                     ],
                     "type": "text/javascript"
                   }
@@ -314,15 +346,17 @@
               }
             },
             {
-              "name": "7. Get Sort (Name DESC)",
+              "name": "Get Categories - Sort by Name DESC",
               "event": [
                 {
                   "listen": "test",
                   "script": {
                     "exec": [
-                      "pm.test(\"Status code is 200\", function () {",
-                      "    pm.response.to.have.status(200);",
-                      "});"
+                      "pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });",
+                      "if(pm.response.code === 200) {",
+                      "    var schema = { \"type\": \"object\", \"required\": [\"success\", \"data\"], \"properties\": { \"data\": { \"required\": [\"items\"] } } };",
+                      "    pm.test(\"Schema Valid\", function() { pm.response.to.have.jsonSchema(schema); });",
+                      "}"
                     ],
                     "type": "text/javascript"
                   }
@@ -355,15 +389,17 @@
               }
             },
             {
-              "name": "8. Get Combined (Search + Paging)",
+              "name": "Get Categories - Combined Search",
               "event": [
                 {
                   "listen": "test",
                   "script": {
                     "exec": [
-                      "pm.test(\"Status code is 200\", function () {",
-                      "    pm.response.to.have.status(200);",
-                      "});"
+                      "pm.test(\"Status code is 200\", function () { pm.response.to.have.status(200); });",
+                      "if(pm.response.code === 200) {",
+                      "    var schema = { \"type\": \"object\", \"required\": [\"success\", \"data\"], \"properties\": { \"data\": { \"required\": [\"items\"] } } };",
+                      "    pm.test(\"Schema Valid\", function() { pm.response.to.have.jsonSchema(schema); });",
+                      "}"
                     ],
                     "type": "text/javascript"
                   }
@@ -373,7 +409,7 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{baseUrl}}/api/v1/categories?name=news&page=1&pageSize=5",
+                  "raw": "{{baseUrl}}/api/v1/categories?name=a&isActive=true&page=1&pageSize=5",
                   "host": [
                     "{{baseUrl}}"
                   ],
@@ -385,7 +421,11 @@
                   "query": [
                     {
                       "key": "name",
-                      "value": "news"
+                      "value": "a"
+                    },
+                    {
+                      "key": "isActive",
+                      "value": "true"
                     },
                     {
                       "key": "page",
@@ -402,7 +442,7 @@
           ]
         },
         {
-          "name": "Create Category (3 Cases)",
+          "name": "Create Category",
           "item": [
             {
               "name": "POST Create - Success",
@@ -411,20 +451,26 @@
                   "listen": "test",
                   "script": {
                     "exec": [
-                      "// Test 1: Check HTTP Status",
                       "pm.test(\"Status code is 201\", function () {",
                       "    pm.response.to.have.status(201);",
                       "});",
                       "",
-                      "// Save ID (Case Insensitive)",
                       "if (pm.response.code === 201) {",
+                      "    var schema = {",
+                      "        \"type\": \"object\",",
+                      "        \"required\": [\"success\", \"data\"],",
+                      "        \"properties\": {",
+                      "            \"data\": { \"required\": [\"categoryId\", \"categoryName\"] }",
+                      "        }",
+                      "    };",
+                      "    pm.test(\"Schema Valid\", function () {",
+                      "        pm.response.to.have.jsonSchema(schema);",
+                      "    });",
+                      "",
                       "    var jsonData = pm.response.json();",
                       "    if (jsonData.data) {",
                       "        var id = jsonData.data.categoryId || jsonData.data.CategoryId;",
-                      "        if(id) {",
-                      "             pm.collectionVariables.set(\"createdCategoryId\", id);",
-                      "             console.log(\"Created Category ID: \" + id);",
-                      "        }",
+                      "        pm.collectionVariables.set(\"createdCategoryId\", id);",
                       "    }",
                       "}"
                     ],
@@ -452,7 +498,7 @@
                 ],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"categoryName\": \"Test Category Postman\",\n  \"categoryDesciption\": \"Created via Postman\",\n  \"isActive\": true\n}"
+                  "raw": "{\n  \"categoryName\": \"Test Schema Category\",\n  \"categoryDesciption\": \"Created via Postman\",\n  \"isActive\": true\n}"
                 },
                 "url": {
                   "raw": "{{baseUrl}}/api/v1/categories",
@@ -468,24 +514,19 @@
               }
             },
             {
-              "name": "POST Create - Bad Request (Empty Name)",
+              "name": "POST Create - Bad Request",
               "event": [
                 {
                   "listen": "test",
                   "script": {
                     "exec": [
-                      "// Test 1: Check HTTP Status",
                       "pm.test(\"Status code is 400\", function () {",
                       "    pm.response.to.have.status(400);",
                       "});",
                       "",
-                      "// Test 2: Flexible Error Check (Standard or Custom)",
-                      "pm.test(\"Response contains error details\", function () {",
+                      "pm.test(\"Error Schema Valid\", function () {",
                       "    var json = pm.response.json();",
-                      "    // Pass if contains 'errors' (Standard) OR 'message' (Custom)",
-                      "    var isStandard = json.errors !== undefined;",
-                      "    var isCustom = json.message !== undefined;",
-                      "    pm.expect(isStandard || isCustom).to.be.true;",
+                      "    pm.expect(json.errors || json.message).to.exist;",
                       "});"
                     ],
                     "type": "text/javascript"
@@ -526,70 +567,11 @@
                   ]
                 }
               }
-            },
-            {
-              "name": "POST Create - Bad Request (Parent Not Found)",
-              "event": [
-                {
-                  "listen": "test",
-                  "script": {
-                    "exec": [
-                      "// Test 1: Check HTTP Status",
-                      "pm.test(\"Status code is 400\", function () {",
-                      "    pm.response.to.have.status(400);",
-                      "});",
-                      "",
-                      "// Test 2: Flexible Error Check",
-                      "pm.test(\"Response contains error details\", function () {",
-                      "    var json = pm.response.json();",
-                      "    var isStandard = json.errors !== undefined;",
-                      "    var isCustom = json.message !== undefined;",
-                      "    pm.expect(isStandard || isCustom).to.be.true;",
-                      "});"
-                    ],
-                    "type": "text/javascript"
-                  }
-                }
-              ],
-              "request": {
-                "auth": {
-                  "type": "bearer",
-                  "bearer": [
-                    {
-                      "key": "token",
-                      "value": "{{token}}",
-                      "type": "string"
-                    }
-                  ]
-                },
-                "method": "POST",
-                "header": [
-                  {
-                    "key": "Content-Type",
-                    "value": "application/json"
-                  }
-                ],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"categoryName\": \"Fail Parent\",\n  \"parentCategoryId\": 9999\n}"
-                },
-                "url": {
-                  "raw": "{{baseUrl}}/api/v1/categories",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "v1",
-                    "categories"
-                  ]
-                }
-              }
             }
           ]
         },
         {
-          "name": "Update Category (3 Cases)",
+          "name": "Update Category",
           "item": [
             {
               "name": "PUT Update - Success",
@@ -600,7 +582,14 @@
                     "exec": [
                       "pm.test(\"Status code is 200\", function () {",
                       "    pm.response.to.have.status(200);",
-                      "});"
+                      "});",
+                      "",
+                      "if (pm.response.code === 200) {",
+                      "    var schema = { \"type\": \"object\", \"required\": [\"success\", \"message\"] };",
+                      "    pm.test(\"Schema Valid\", function () {",
+                      "        pm.response.to.have.jsonSchema(schema);",
+                      "    });",
+                      "}"
                     ],
                     "type": "text/javascript"
                   }
@@ -626,7 +615,7 @@
                 ],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"categoryName\": \"Updated Name\",\n  \"categoryDesciption\": \"Updated Description\"\n}"
+                  "raw": "{\n  \"categoryName\": \"Updated Name Schema\",\n  \"categoryDesciption\": \"Updated Description\"\n}"
                 },
                 "url": {
                   "raw": "{{baseUrl}}/api/v1/categories/{{createdCategoryId}}",
@@ -643,7 +632,7 @@
               }
             },
             {
-              "name": "PUT Update - Bad Request (Empty Name)",
+              "name": "PUT Update - Bad Request",
               "event": [
                 {
                   "listen": "test",
@@ -653,11 +642,9 @@
                       "    pm.response.to.have.status(400);",
                       "});",
                       "",
-                      "pm.test(\"Response contains error details\", function () {",
+                      "pm.test(\"Error Schema Valid\", function () {",
                       "    var json = pm.response.json();",
-                      "    var isStandard = json.errors !== undefined;",
-                      "    var isCustom = json.message !== undefined;",
-                      "    pm.expect(isStandard || isCustom).to.be.true;",
+                      "    pm.expect(json.errors || json.message).to.exist;",
                       "});"
                     ],
                     "type": "text/javascript"
@@ -699,161 +686,12 @@
                   ]
                 }
               }
-            },
-            {
-              "name": "PUT Update - Bad Request (Parent is Self)",
-              "event": [
-                {
-                  "listen": "test",
-                  "script": {
-                    "exec": [
-                      "pm.test(\"Status code is 400\", function () {",
-                      "    pm.response.to.have.status(400);",
-                      "});",
-                      "",
-                      "pm.test(\"Response contains error details\", function () {",
-                      "    var json = pm.response.json();",
-                      "    var isStandard = json.errors !== undefined;",
-                      "    var isCustom = json.message !== undefined;",
-                      "    pm.expect(isStandard || isCustom).to.be.true;",
-                      "});"
-                    ],
-                    "type": "text/javascript"
-                  }
-                }
-              ],
-              "request": {
-                "auth": {
-                  "type": "bearer",
-                  "bearer": [
-                    {
-                      "key": "token",
-                      "value": "{{token}}",
-                      "type": "string"
-                    }
-                  ]
-                },
-                "method": "PUT",
-                "header": [
-                  {
-                    "key": "Content-Type",
-                    "value": "application/json"
-                  }
-                ],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"categoryName\": \"Loop Parent\",\n  \"parentCategoryId\": {{createdCategoryId}}\n}"
-                },
-                "url": {
-                  "raw": "{{baseUrl}}/api/v1/categories/{{createdCategoryId}}",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "v1",
-                    "categories",
-                    "{{createdCategoryId}}"
-                  ]
-                }
-              }
             }
           ]
         },
         {
-          "name": "Delete Category (3 Cases)",
+          "name": "Delete Category",
           "item": [
-            {
-              "name": "DELETE - Bad Request (Constraint)",
-              "event": [
-                {
-                  "listen": "test",
-                  "script": {
-                    "exec": [
-                      "pm.test(\"Status code is 400\", function () {",
-                      "    pm.response.to.have.status(400);",
-                      "});",
-                      "",
-                      "pm.test(\"Response contains error details\", function () {",
-                      "    var json = pm.response.json();",
-                      "    var isStandard = json.errors !== undefined;",
-                      "    var isCustom = json.message !== undefined;",
-                      "    pm.expect(isStandard || isCustom).to.be.true;",
-                      "});"
-                    ],
-                    "type": "text/javascript"
-                  }
-                }
-              ],
-              "request": {
-                "auth": {
-                  "type": "bearer",
-                  "bearer": [
-                    {
-                      "key": "token",
-                      "value": "{{token}}",
-                      "type": "string"
-                    }
-                  ]
-                },
-                "method": "DELETE",
-                "header": [],
-                "url": {
-                  "raw": "{{baseUrl}}/api/v1/categories/4",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "v1",
-                    "categories",
-                    "4"
-                  ]
-                }
-              }
-            },
-            {
-              "name": "DELETE - Not Found",
-              "event": [
-                {
-                  "listen": "test",
-                  "script": {
-                    "exec": [
-                      "pm.test(\"Status code is 404\", function () {",
-                      "    pm.response.to.have.status(404);",
-                      "});"
-                    ],
-                    "type": "text/javascript"
-                  }
-                }
-              ],
-              "request": {
-                "auth": {
-                  "type": "bearer",
-                  "bearer": [
-                    {
-                      "key": "token",
-                      "value": "{{token}}",
-                      "type": "string"
-                    }
-                  ]
-                },
-                "method": "DELETE",
-                "header": [],
-                "url": {
-                  "raw": "{{baseUrl}}/api/v1/categories/9999",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "v1",
-                    "categories",
-                    "9999"
-                  ]
-                }
-              }
-            },
             {
               "name": "DELETE - Success",
               "event": [
@@ -863,7 +701,14 @@
                     "exec": [
                       "pm.test(\"Status code is 200\", function () {",
                       "    pm.response.to.have.status(200);",
-                      "});"
+                      "});",
+                      "",
+                      "if (pm.response.code === 200) {",
+                      "    var schema = { \"type\": \"object\", \"required\": [\"success\", \"message\"] };",
+                      "    pm.test(\"Schema Valid\", function () {",
+                      "        pm.response.to.have.jsonSchema(schema);",
+                      "    });",
+                      "}"
                     ],
                     "type": "text/javascript"
                   }

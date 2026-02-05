@@ -1,1028 +1,904 @@
 {
-    "info": {
-        "name": "PRN232 LAB2 - REST API Tests",
-        "description": "API Testing for FU News Management System - Zero Failed Tests",
-        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  "info": {
+    "name": "PRN232 LAB2 - REST API Tests",
+    "description": "Smart scripts: Auto-detect Token case (Upper/Lower), Flexible Error Schema (Standard/Custom). Ensures Status 400/401/200 are checked correctly.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
     },
-    "auth": {
-        "type": "bearer",
-        "bearer": [
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "createdCategoryId",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Auth",
+      "item": [
+        {
+          "name": "Login - Success",
+          "event": [
             {
-                "key": "token",
-                "value": "{{token}}",
-                "type": "string"
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Test 1: Check HTTP Status",
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "// Test 2: Save Token (Case Insensitive Support)",
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.data) {",
+                  "    // Try finding token in various casings",
+                  "    var token = jsonData.data.token || jsonData.data.Token || jsonData.data.accessToken;",
+                  "    ",
+                  "    if (token) {",
+                  "        pm.collectionVariables.set(\"token\", token);",
+                  "        console.log(\"Token saved successfully: \" + token.substring(0, 10) + \"...\");",
+                  "    } else {",
+                  "        console.log(\"Token field not found in response data\");",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
             }
-        ]
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"accountEmail\": \"admin@FUNewsManagementSystem.org\",\n  \"accountPassword\": \"@@abc123@@\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "login"
+              ]
+            }
+          }
+        }
+      ]
     },
-    "variable": [
+    {
+      "name": "2. Categories",
+      "item": [
         {
-            "key": "baseUrl",
-            "value": "http://localhost:8080",
-            "type": "string"
-        },
-        {
-            "key": "token",
-            "value": "",
-            "type": "string"
-        },
-        {
-            "key": "createdNewsArticleId",
-            "value": "",
-            "type": "string"
-        },
-        {
-            "key": "createdCategoryId",
-            "value": "",
-            "type": "string"
-        },
-        {
-            "key": "createdAccountId",
-            "value": "",
-            "type": "string"
-        }
-    ],
-    "item": [
-        {
-            "name": "Auth",
-            "item": [
+          "name": "GET List (8 Test Cases)",
+          "item": [
+            {
+              "name": "1. Get All (Default)",
+              "event": [
                 {
-                    "name": "POST Login - Success",
-                    "event": [
-                        {
-                            "listen": "test",
-                            "script": {
-                                "exec": [
-                                    "// Test 1: Check HTTP Status (flexible)",
-                                    "pm.test('Login request completed', function() {",
-                                    "    pm.expect(pm.response.code).to.be.oneOf([200, 400, 401]);",
-                                    "});",
-                                    "",
-                                    "// Save token only if successful",
-                                    "try {",
-                                    "    if (pm.response.code === 200) {",
-                                    "        const response = pm.response.json();",
-                                    "        // ApiResponse<LoginResponse> => response.data.token",
-                                    "        if (response.data && response.data.token) {",
-                                    "            pm.collectionVariables.set('token', response.data.token);",
-                                    "        }",
-                                    "    }",
-                                    "} catch(e) {",
-                                    "    // Silent fail",
-                                    "}"
-                                ],
-                                "type": "text/javascript"
-                            }
-                        }
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {",
+                      "    pm.response.to.have.status(200);",
+                      "});"
                     ],
-                    "request": {
-                        "auth": {
-                            "type": "noauth"
-                        },
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application/json"
-                            }
-                        ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n  \"accountEmail\": \"EmmaWilliam@FUNewsManagement.org\",\n  \"accountPassword\": \"@1\"\n}"
-                        },
-                        "url": {
-                            "raw": "{{baseUrl}}/api/v1/auth/login",
-                            "host": [ "{{baseUrl}}" ],
-                            "path": [ "api", "v1", "auth", "login" ]
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "POST Login - Invalid Credentials",
-                    "event": [
-                        {
-                            "listen": "test",
-                            "script": {
-                                "exec": [
-                                    "pm.test('Request completed', function() {",
-                                    "    pm.expect(pm.response.code).to.be.oneOf([400, 401, 404]);",
-                                    "});"
-                                ],
-                                "type": "text/javascript"
-                            }
-                        }
-                    ],
-                    "request": {
-                        "auth": {
-                            "type": "noauth"
-                        },
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application/json"
-                            }
-                        ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n  \"email\": \"wrong@email.com\",\n  \"password\": \"WrongPassword\"\n}"
-                        },
-                        "url": {
-                            "raw": "{{baseUrl}}/api/v1/auth/login",
-                            "host": [ "{{baseUrl}}" ],
-                            "path": [ "api", "v1", "auth", "login" ]
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "POST Login - Missing Fields",
-                    "event": [
-                        {
-                            "listen": "test",
-                            "script": {
-                                "exec": [
-                                    "pm.test('Request completed', function() {",
-                                    "    pm.expect(pm.response.code).to.be.oneOf([400, 422]);",
-                                    "});"
-                                ],
-                                "type": "text/javascript"
-                            }
-                        }
-                    ],
-                    "request": {
-                        "auth": {
-                            "type": "noauth"
-                        },
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application/json"
-                            }
-                        ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n  \"email\": \"\",\n  \"password\": \"\"\n}"
-                        },
-                        "url": {
-                            "raw": "{{baseUrl}}/api/v1/auth/login",
-                            "host": [ "{{baseUrl}}" ],
-                            "path": [ "api", "v1", "auth", "login" ]
-                        }
-                    },
-                    "response": []
+                    "type": "text/javascript"
+                  }
                 }
-            ]
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/categories",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "categories"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "2. Get Paging (Size=2)",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {",
+                      "    pm.response.to.have.status(200);",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/categories?page=1&pageSize=2",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "categories"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "2"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "3. Get Search (Name)",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {",
+                      "    pm.response.to.have.status(200);",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/categories?name=Academic",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "categories"
+                  ],
+                  "query": [
+                    {
+                      "key": "name",
+                      "value": "Academic"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "4. Get Filter (Active)",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {",
+                      "    pm.response.to.have.status(200);",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/categories?isActive=true",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "categories"
+                  ],
+                  "query": [
+                    {
+                      "key": "isActive",
+                      "value": "true"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "5. Get Filter (Inactive)",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {",
+                      "    pm.response.to.have.status(200);",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/categories?isActive=false",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "categories"
+                  ],
+                  "query": [
+                    {
+                      "key": "isActive",
+                      "value": "false"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "6. Get Sort (Name ASC)",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {",
+                      "    pm.response.to.have.status(200);",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/categories?sortBy=CategoryName&isDescending=false",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "categories"
+                  ],
+                  "query": [
+                    {
+                      "key": "sortBy",
+                      "value": "CategoryName"
+                    },
+                    {
+                      "key": "isDescending",
+                      "value": "false"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "7. Get Sort (Name DESC)",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {",
+                      "    pm.response.to.have.status(200);",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/categories?sortBy=CategoryName&isDescending=true",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "categories"
+                  ],
+                  "query": [
+                    {
+                      "key": "sortBy",
+                      "value": "CategoryName"
+                    },
+                    {
+                      "key": "isDescending",
+                      "value": "true"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "8. Get Combined (Search + Paging)",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {",
+                      "    pm.response.to.have.status(200);",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/categories?name=news&page=1&pageSize=5",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "categories"
+                  ],
+                  "query": [
+                    {
+                      "key": "name",
+                      "value": "news"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "5"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
         },
         {
-            "name": "Categories",
-            "item": [
+          "name": "Create Category (3 Cases)",
+          "item": [
+            {
+              "name": "POST Create - Success",
+              "event": [
                 {
-                    "name": "GET Categories - Default Paging",
-                    "event": [
-                        {
-                            "listen": "test",
-                            "script": {
-                                "exec": [
-                                    "pm.test('Status code is valid (list)', function () {",
-                                    "    const allowed = [200, 400, 409];",
-                                    "    if (allowed.indexOf(pm.response.code) === -1) {",
-                                    "        // Không chấm các status code khác (401, 403, 500, ...)",
-                                    "        pm.expect(true).to.be.true;",
-                                    "        return;",
-                                    "    }",
-                                    "    pm.expect(pm.response.code).to.be.oneOf(allowed);",
-                                    "});",
-                                    "",
-                                    "pm.test('Categories list - success schema', function () {",
-                                    "    if (pm.response.code !== 200) {",
-                                    "        pm.expect(true).to.be.true;",
-                                    "        return;",
-                                    "    }",
-                                    "",
-                                    "    const schema = {",
-                                    "        type: 'object',",
-                                    "        required: ['success', 'message', 'data'],",
-                                    "        properties: {",
-                                    "            success: { type: 'boolean' },",
-                                    "            message: { type: 'string' },",
-                                    "            data: {",
-                                    "                type: 'object',",
-                                    "                required: ['items', 'page', 'pageSize', 'totalItems', 'totalPages'],",
-                                    "                properties: {",
-                                    "                    items: {",
-                                    "                        type: 'array',",
-                                    "                        items: {",
-                                    "                            type: 'object',",
-                                    "                            required: ['categoryId', 'categoryName'],",
-                                    "                            properties: {",
-                                    "                                categoryId: { type: 'integer' },",
-                                    "                                categoryName: { type: 'string' },",
-                                    "                                categoryDesciption: { type: ['string', 'null'] },",
-                                    "                                parentCategoryId: { type: ['integer', 'null'] },",
-                                    "                                parentCategoryName: { type: ['string', 'null'] },",
-                                    "                                isActive: { type: ['boolean', 'null'] }",
-                                    "                            }",
-                                    "                        }",
-                                    "                    },",
-                                    "                    page: { type: 'integer' },",
-                                    "                    pageSize: { type: 'integer' },",
-                                    "                    totalItems: { type: 'integer' },",
-                                    "                    totalPages: { type: 'integer' }",
-                                    "                }",
-                                    "            },",
-                                    "            errors: {",
-                                    "                type: ['object', 'null']",
-                                    "            }",
-                                    "        }",
-                                    "    };",
-                                    "",
-                                    "    pm.response.to.have.jsonSchema(schema);",
-                                    "});",
-                                    "",
-                                    "pm.test('Categories list - error schema', function () {",
-                                    "    if ([400, 409].indexOf(pm.response.code) === -1) {",
-                                    "        pm.expect(true).to.be.true;",
-                                    "        return;",
-                                    "    }",
-                                    "",
-                                    "    const errorSchema = {",
-                                    "        type: 'object',",
-                                    "        required: ['success', 'message'],",
-                                    "        properties: {",
-                                    "            success: { type: 'boolean' },",
-                                    "            message: { type: 'string' },",
-                                    "            data: {},",
-                                    "            errors: { type: ['object', 'null'] }",
-                                    "        }",
-                                    "    };",
-                                    "",
-                                    "    pm.response.to.have.jsonSchema(errorSchema);",
-                                    "});"
-                                ],
-                                "type": "text/javascript"
-                            }
-                        }
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "// Test 1: Check HTTP Status",
+                      "pm.test(\"Status code is 201\", function () {",
+                      "    pm.response.to.have.status(201);",
+                      "});",
+                      "",
+                      "// Save ID (Case Insensitive)",
+                      "if (pm.response.code === 201) {",
+                      "    var jsonData = pm.response.json();",
+                      "    if (jsonData.data) {",
+                      "        var id = jsonData.data.categoryId || jsonData.data.CategoryId;",
+                      "        if(id) {",
+                      "             pm.collectionVariables.set(\"createdCategoryId\", id);",
+                      "             console.log(\"Created Category ID: \" + id);",
+                      "        }",
+                      "    }",
+                      "}"
                     ],
-                    "request": {
-                        "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "{{baseUrl}}/api/v1/categories",
-                            "host": [ "{{baseUrl}}" ],
-                            "path": [ "api", "v1", "categories" ]
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "GET Categories - Custom Paging",
-                    "event": [
-                        {
-                            "listen": "test",
-                            "script": {
-                                "exec": [
-                                    "pm.test('Request successful', function() {",
-                                    "    pm.expect(pm.response.code).to.be.oneOf([200, 401]);",
-                                    "});"
-                                ],
-                                "type": "text/javascript"
-                            }
-                        }
-                    ],
-                    "request": {
-                        "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "{{baseUrl}}/api/v1/categories?pageSize=5&pageNumber=1",
-                            "host": [ "{{baseUrl}}" ],
-                            "path": [ "api", "v1", "categories" ],
-                            "query": [
-                                {
-                                    "key": "pageSize",
-                                    "value": "5"
-                                },
-                                {
-                                    "key": "pageNumber",
-                                    "value": "1"
-                                }
-                            ]
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "GET Categories - Search by Name",
-                    "event": [
-                        {
-                            "listen": "test",
-                            "script": {
-                                "exec": [
-                                    "pm.test('Request successful', function() {",
-                                    "    pm.expect(pm.response.code).to.be.oneOf([200, 401]);",
-                                    "});"
-                                ],
-                                "type": "text/javascript"
-                            }
-                        }
-                    ],
-                    "request": {
-                        "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "{{baseUrl}}/api/v1/categories?search=Academic",
-                            "host": [ "{{baseUrl}}" ],
-                            "path": [ "api", "v1", "categories" ],
-                            "query": [
-                                {
-                                    "key": "search",
-                                    "value": "Academic"
-                                }
-                            ]
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "GET Categories - Filter Active",
-                    "event": [
-                        {
-                            "listen": "test",
-                            "script": {
-                                "exec": [
-                                    "pm.test('Request successful', function() {",
-                                    "    pm.expect(pm.response.code).to.be.oneOf([200, 401]);",
-                                    "});"
-                                ],
-                                "type": "text/javascript"
-                            }
-                        }
-                    ],
-                    "request": {
-                        "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "{{baseUrl}}/api/v1/categories?isActive=true",
-                            "host": [ "{{baseUrl}}" ],
-                            "path": [ "api", "v1", "categories" ],
-                            "query": [
-                                {
-                                    "key": "isActive",
-                                    "value": "true"
-                                }
-                            ]
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "GET Categories - Sort by Name ASC",
-                    "event": [
-                        {
-                            "listen": "test",
-                            "script": {
-                                "exec": [
-                                    "pm.test('Request successful', function() {",
-                                    "    pm.expect(pm.response.code).to.be.oneOf([200, 401]);",
-                                    "});"
-                                ],
-                                "type": "text/javascript"
-                            }
-                        }
-                    ],
-                    "request": {
-                        "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "{{baseUrl}}/api/v1/categories?sortBy=categoryName&sortOrder=asc",
-                            "host": [ "{{baseUrl}}" ],
-                            "path": [ "api", "v1", "categories" ],
-                            "query": [
-                                {
-                                    "key": "sortBy",
-                                    "value": "categoryName"
-                                },
-                                {
-                                    "key": "sortOrder",
-                                    "value": "asc"
-                                }
-                            ]
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "GET Categories - Sort by Name DESC",
-                    "event": [
-                        {
-                            "listen": "test",
-                            "script": {
-                                "exec": [
-                                    "pm.test('Request successful', function() {",
-                                    "    pm.expect(pm.response.code).to.be.oneOf([200, 401]);",
-                                    "});"
-                                ],
-                                "type": "text/javascript"
-                            }
-                        }
-                    ],
-                    "request": {
-                        "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "{{baseUrl}}/api/v1/categories?sortBy=categoryName&sortOrder=desc",
-                            "host": [ "{{baseUrl}}" ],
-                            "path": [ "api", "v1", "categories" ],
-                            "query": [
-                                {
-                                    "key": "sortBy",
-                                    "value": "categoryName"
-                                },
-                                {
-                                    "key": "sortOrder",
-                                    "value": "desc"
-                                }
-                            ]
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "GET Categories - Combined Filters",
-                    "event": [
-                        {
-                            "listen": "test",
-                            "script": {
-                                "exec": [
-                                    "pm.test('Request successful', function() {",
-                                    "    pm.expect(pm.response.code).to.be.oneOf([200, 401]);",
-                                    "});"
-                                ],
-                                "type": "text/javascript"
-                            }
-                        }
-                    ],
-                    "request": {
-                        "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "{{baseUrl}}/api/v1/categories?search=news&isActive=true&sortBy=categoryName&sortOrder=asc&pageSize=10&pageNumber=1",
-                            "host": [ "{{baseUrl}}" ],
-                            "path": [ "api", "v1", "categories" ],
-                            "query": [
-                                {
-                                    "key": "search",
-                                    "value": "news"
-                                },
-                                {
-                                    "key": "isActive",
-                                    "value": "true"
-                                },
-                                {
-                                    "key": "sortBy",
-                                    "value": "categoryName"
-                                },
-                                {
-                                    "key": "sortOrder",
-                                    "value": "asc"
-                                },
-                                {
-                                    "key": "pageSize",
-                                    "value": "10"
-                                },
-                                {
-                                    "key": "pageNumber",
-                                    "value": "1"
-                                }
-                            ]
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "GET Categories - Invalid Page",
-                    "event": [
-                        {
-                            "listen": "test",
-                            "script": {
-                                "exec": [
-                                    "pm.test('Request completed', function() {",
-                                    "    pm.expect(pm.response.code).to.be.oneOf([200, 400, 401]);",
-                                    "});"
-                                ],
-                                "type": "text/javascript"
-                            }
-                        }
-                    ],
-                    "request": {
-                        "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "{{baseUrl}}/api/v1/categories?pageNumber=99999",
-                            "host": [ "{{baseUrl}}" ],
-                            "path": [ "api", "v1", "categories" ],
-                            "query": [
-                                {
-                                    "key": "pageNumber",
-                                    "value": "99999"
-                                }
-                            ]
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "GET Category by ID - Success (ID=1)",
-                    "event": [
-                        {
-                            "listen": "test",
-                            "script": {
-                                "exec": [
-                                    "pm.test('Request successful', function() {",
-                                    "    pm.expect(pm.response.code).to.be.oneOf([200, 401, 404]);",
-                                    "});"
-                                ],
-                                "type": "text/javascript"
-                            }
-                        }
-                    ],
-                    "request": {
-                        "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "{{baseUrl}}/api/v1/categories/1",
-                            "host": [ "{{baseUrl}}" ],
-                            "path": [ "api", "v1", "categories", "1" ]
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "POST Category - CREATE Success",
-                    "event": [
-                        {
-                            "listen": "test",
-                            "script": {
-                                "exec": [
-                                    "// Test 1: Status code in allowed set (Create)",
-                                    "pm.test('Create category - status code', function () {",
-                                    "    const allowed = [201, 400, 409];",
-                                    "    if (allowed.indexOf(pm.response.code) === -1) {",
-                                    "        // Không chấm các status code khác (401, 403, 500, ...)",
-                                    "        pm.expect(true).to.be.true;",
-                                    "        return;",
-                                    "    }",
-                                    "    pm.expect(pm.response.code).to.be.oneOf(allowed);",
-                                    "});",
-                                    "",
-                                    "// Test 2: JSON schema for success response (201)",
-                                    "pm.test('Create category - success schema', function () {",
-                                    "    if (pm.response.code !== 201) {",
-                                    "        pm.expect(true).to.be.true;",
-                                    "        return;",
-                                    "    }",
-                                    "",
-                                    "    const schema = {",
-                                    "        type: 'object',",
-                                    "        required: ['success', 'message', 'data'],",
-                                    "        properties: {",
-                                    "            success: { type: 'boolean' },",
-                                    "            message: { type: 'string' },",
-                                    "            data: {",
-                                    "                type: 'object',",
-                                    "                required: ['categoryId', 'categoryName'],",
-                                    "                properties: {",
-                                    "                    categoryId: { type: 'integer' },",
-                                    "                    categoryName: { type: 'string' },",
-                                    "                    categoryDesciption: { type: ['string', 'null'] },",
-                                    "                    parentCategoryId: { type: ['integer', 'null'] },",
-                                    "                    parentCategoryName: { type: ['string', 'null'] },",
-                                    "                    isActive: { type: ['boolean', 'null'] }",
-                                    "                }",
-                                    "            },",
-                                    "            errors: { type: ['object', 'null'] }",
-                                    "        }",
-                                    "    };",
-                                    "",
-                                    "    pm.response.to.have.jsonSchema(schema);",
-                                    "});",
-                                    "",
-                                    "// Test 3: JSON schema for error response (400/409)",
-                                    "pm.test('Create category - error schema', function () {",
-                                    "    if ([400, 409].indexOf(pm.response.code) === -1) {",
-                                    "        pm.expect(true).to.be.true;",
-                                    "        return;",
-                                    "    }",
-                                    "",
-                                    "    const errorSchema = {",
-                                    "        type: 'object',",
-                                    "        required: ['success', 'message'],",
-                                    "        properties: {",
-                                    "            success: { type: 'boolean' },",
-                                    "            message: { type: 'string' },",
-                                    "            data: {},",
-                                    "            errors: { type: ['object', 'null'] }",
-                                    "        }",
-                                    "    };",
-                                    "",
-                                    "    pm.response.to.have.jsonSchema(errorSchema);",
-                                    "});",
-                                    "",
-                                    "// Save created category id for later tests",
-                                    "try {",
-                                    "    if (pm.response.code === 201) {",
-                                    "        const response = pm.response.json();",
-                                    "        if (response.data && response.data.categoryId) {",
-                                    "            pm.collectionVariables.set('createdCategoryId', response.data.categoryId);",
-                                    "        }",
-                                    "    }",
-                                    "} catch(e) {",
-                                    "    // Silent fail",
-                                    "}"
-                                ],
-                                "type": "text/javascript"
-                            }
-                        }
-                    ],
-                    "request": {
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application/json"
-                            }
-                        ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n  \"categoryName\": \"Test Category Postman\",\n  \"categoryDesciption\": \"This is a test category created via Postman\",\n  \"isActive\": true\n}"
-                        },
-                        "url": {
-                            "raw": "{{baseUrl}}/api/v1/categories",
-                            "host": [ "{{baseUrl}}" ],
-                            "path": [ "api", "v1", "categories" ]
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "POST Category - CREATE Missing Fields",
-                    "event": [
-                        {
-                            "listen": "test",
-                            "script": {
-                                "exec": [
-                                    "pm.test('Request completed', function() {",
-                                    "    pm.expect(pm.response.code).to.be.oneOf([400, 401, 422]);",
-                                    "});"
-                                ],
-                                "type": "text/javascript"
-                            }
-                        }
-                    ],
-                    "request": {
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application/json"
-                            }
-                        ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n  \"categoryName\": \"\"\n}"
-                        },
-                        "url": {
-                            "raw": "{{baseUrl}}/api/v1/categories",
-                            "host": [ "{{baseUrl}}" ],
-                            "path": [ "api", "v1", "categories" ]
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "POST Category - CREATE Duplicate",
-                    "event": [
-                        {
-                            "listen": "test",
-                            "script": {
-                                "exec": [
-                                    "pm.test('Request completed', function() {",
-                                    "    pm.expect(pm.response.code).to.be.oneOf([400, 401, 409]);",
-                                    "});"
-                                ],
-                                "type": "text/javascript"
-                            }
-                        }
-                    ],
-                    "request": {
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application/json"
-                            }
-                        ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n  \"categoryName\": \"Academic news\",\n  \"categoryDesciption\": \"Duplicate category\"\n}"
-                        },
-                        "url": {
-                            "raw": "{{baseUrl}}/api/v1/categories",
-                            "host": [ "{{baseUrl}}" ],
-                            "path": [ "api", "v1", "categories" ]
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "PUT Category - UPDATE Success",
-                    "event": [
-                        {
-                            "listen": "test",
-                            "script": {
-                                "exec": [
-                                    "// Test 1: Status code in allowed set (Update)",
-                                    "pm.test('Update category - status code', function () {",
-                                    "    const allowed = [200, 400, 409];",
-                                    "    if (allowed.indexOf(pm.response.code) === -1) {",
-                                    "        // Không chấm các status code khác (401, 403, 404, 500, ...)",
-                                    "        pm.expect(true).to.be.true;",
-                                    "        return;",
-                                    "    }",
-                                    "    pm.expect(pm.response.code).to.be.oneOf(allowed);",
-                                    "});",
-                                    "",
-                                    "// Test 2: JSON schema for success response (200)",
-                                    "pm.test('Update category - success schema', function () {",
-                                    "    if (pm.response.code !== 200) {",
-                                    "        pm.expect(true).to.be.true;",
-                                    "        return;",
-                                    "    }",
-                                    "",
-                                    "    const schema = {",
-                                    "        type: 'object',",
-                                    "        required: ['success', 'message'],",
-                                    "        properties: {",
-                                    "            success: { type: 'boolean' },",
-                                    "            message: { type: 'string' },",
-                                    "            data: {},",
-                                    "            errors: { type: ['object', 'null'] }",
-                                    "        }",
-                                    "    };",
-                                    "",
-                                    "    pm.response.to.have.jsonSchema(schema);",
-                                    "});",
-                                    "",
-                                    "// Test 3: JSON schema for error response (400/409)",
-                                    "pm.test('Update category - error schema', function () {",
-                                    "    if ([400, 409].indexOf(pm.response.code) === -1) {",
-                                    "        pm.expect(true).to.be.true;",
-                                    "        return;",
-                                    "    }",
-                                    "",
-                                    "    const errorSchema = {",
-                                    "        type: 'object',",
-                                    "        required: ['success', 'message'],",
-                                    "        properties: {",
-                                    "            success: { type: 'boolean' },",
-                                    "            message: { type: 'string' },",
-                                    "            data: {},",
-                                    "            errors: { type: ['object', 'null'] }",
-                                    "        }",
-                                    "    };",
-                                    "",
-                                    "    pm.response.to.have.jsonSchema(errorSchema);",
-                                    "});"
-                                ],
-                                "type": "text/javascript"
-                            }
-                        }
-                    ],
-                    "request": {
-                        "method": "PUT",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application/json"
-                            }
-                        ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n  \"categoryName\": \"Updated Category Name\",\n  \"categoryDesciption\": \"Updated description\",\n  \"isActive\": true\n}"
-                        },
-                        "url": {
-                            "raw": "{{baseUrl}}/api/v1/categories/{{createdCategoryId}}",
-                            "host": [ "{{baseUrl}}" ],
-                            "path": [ "api", "v1", "categories", "{{createdCategoryId}}" ]
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "PUT Category - UPDATE Not Found",
-                    "event": [
-                        {
-                            "listen": "test",
-                            "script": {
-                                "exec": [
-                                    "pm.test('Request completed', function() {",
-                                    "    pm.expect(pm.response.code).to.be.oneOf([401, 404]);",
-                                    "});"
-                                ],
-                                "type": "text/javascript"
-                            }
-                        }
-                    ],
-                    "request": {
-                        "method": "PUT",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application/json"
-                            }
-                        ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n  \"categoryName\": \"Updated Category\",\n  \"categoryDesciption\": \"Updated description\"\n}"
-                        },
-                        "url": {
-                            "raw": "{{baseUrl}}/api/v1/categories/99999",
-                            "host": [ "{{baseUrl}}" ],
-                            "path": [ "api", "v1", "categories", "99999" ]
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "PUT Category - UPDATE Invalid Data",
-                    "event": [
-                        {
-                            "listen": "test",
-                            "script": {
-                                "exec": [
-                                    "pm.test('Request completed', function() {",
-                                    "    pm.expect(pm.response.code).to.be.oneOf([400, 401, 422]);",
-                                    "});"
-                                ],
-                                "type": "text/javascript"
-                            }
-                        }
-                    ],
-                    "request": {
-                        "method": "PUT",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application/json"
-                            }
-                        ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n  \"categoryName\": \"\"\n}"
-                        },
-                        "url": {
-                            "raw": "{{baseUrl}}/api/v1/categories/1",
-                            "host": [ "{{baseUrl}}" ],
-                            "path": [ "api", "v1", "categories", "1" ]
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "DELETE Category - Success",
-                    "event": [
-                        {
-                            "listen": "test",
-                            "script": {
-                                "exec": [
-                                    "// Test 1: Status code in allowed set (Delete)",
-                                    "pm.test('Delete category - status code', function () {",
-                                    "    const allowed = [200, 400, 409];",
-                                    "    if (allowed.indexOf(pm.response.code) === -1) {",
-                                    "        // Không chấm các status code khác (401, 403, 404, 500, ...)",
-                                    "        pm.expect(true).to.be.true;",
-                                    "        return;",
-                                    "    }",
-                                    "    pm.expect(pm.response.code).to.be.oneOf(allowed);",
-                                    "});",
-                                    "",
-                                    "// Test 2: JSON schema for success response (200)",
-                                    "pm.test('Delete category - success schema', function () {",
-                                    "    if (pm.response.code !== 200) {",
-                                    "        pm.expect(true).to.be.true;",
-                                    "        return;",
-                                    "    }",
-                                    "",
-                                    "    const schema = {",
-                                    "        type: 'object',",
-                                    "        required: ['success', 'message'],",
-                                    "        properties: {",
-                                    "            success: { type: 'boolean' },",
-                                    "            message: { type: 'string' },",
-                                    "            data: {},",
-                                    "            errors: { type: ['object', 'null'] }",
-                                    "        }",
-                                    "    };",
-                                    "",
-                                    "    pm.response.to.have.jsonSchema(schema);",
-                                    "});",
-                                    "",
-                                    "// Test 3: JSON schema for error response (400/409)",
-                                    "pm.test('Delete category - error schema', function () {",
-                                    "    if ([400, 409].indexOf(pm.response.code) === -1) {",
-                                    "        pm.expect(true).to.be.true;",
-                                    "        return;",
-                                    "    }",
-                                    "",
-                                    "    const errorSchema = {",
-                                    "        type: 'object',",
-                                    "        required: ['success', 'message'],",
-                                    "        properties: {",
-                                    "            success: { type: 'boolean' },",
-                                    "            message: { type: 'string' },",
-                                    "            data: {},",
-                                    "            errors: { type: ['object', 'null'] }",
-                                    "        }",
-                                    "    };",
-                                    "",
-                                    "    pm.response.to.have.jsonSchema(errorSchema);",
-                                    "});"
-                                ],
-                                "type": "text/javascript"
-                            }
-                        }
-                    ],
-                    "request": {
-                        "method": "DELETE",
-                        "header": [],
-                        "url": {
-                            "raw": "{{baseUrl}}/api/v1/categories/{{createdCategoryId}}",
-                            "host": [ "{{baseUrl}}" ],
-                            "path": [ "api", "v1", "categories", "{{createdCategoryId}}" ]
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "DELETE Category - Not Found",
-                    "event": [
-                        {
-                            "listen": "test",
-                            "script": {
-                                "exec": [
-                                    "pm.test('Request completed', function() {",
-                                    "    pm.expect(pm.response.code).to.be.oneOf([401, 404]);",
-                                    "});"
-                                ],
-                                "type": "text/javascript"
-                            }
-                        }
-                    ],
-                    "request": {
-                        "method": "DELETE",
-                        "header": [],
-                        "url": {
-                            "raw": "{{baseUrl}}/api/v1/categories/99999",
-                            "host": [ "{{baseUrl}}" ],
-                            "path": [ "api", "v1", "categories", "99999" ]
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "DELETE Category - Already Deleted",
-                    "event": [
-                        {
-                            "listen": "test",
-                            "script": {
-                                "exec": [
-                                    "pm.test('Delete category already deleted - status code (only 400/409)', function () {",
-                                    "    const allowed = [400, 409];",
-                                    "    if (allowed.indexOf(pm.response.code) === -1) {",
-                                    "        // Không chấm các status code khác (401, 404, 405, 500, ...)",
-                                    "        pm.expect(true).to.be.true;",
-                                    "        return;",
-                                    "    }",
-                                    "    pm.expect(pm.response.code).to.be.oneOf(allowed);",
-                                    "});"
-                                ],
-                                "type": "text/javascript"
-                            }
-                        }
-                    ],
-                    "request": {
-                        "method": "DELETE",
-                        "header": [],
-                        "url": {
-                            "raw": "{{baseUrl}}/api/v1/categories/{{createdCategoryId}}",
-                            "host": [ "{{baseUrl}}" ],
-                            "path": [ "api", "v1", "categories", "{{createdCategoryId}}" ]
-                        }
-                    },
-                    "response": []
+                    "type": "text/javascript"
+                  }
                 }
-            ]
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"categoryName\": \"Test Category Postman\",\n  \"categoryDesciption\": \"Created via Postman\",\n  \"isActive\": true\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/categories",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "categories"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "POST Create - Bad Request (Empty Name)",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "// Test 1: Check HTTP Status",
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "",
+                      "// Test 2: Flexible Error Check (Standard or Custom)",
+                      "pm.test(\"Response contains error details\", function () {",
+                      "    var json = pm.response.json();",
+                      "    // Pass if contains 'errors' (Standard) OR 'message' (Custom)",
+                      "    var isStandard = json.errors !== undefined;",
+                      "    var isCustom = json.message !== undefined;",
+                      "    pm.expect(isStandard || isCustom).to.be.true;",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"categoryName\": \"\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/categories",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "categories"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "POST Create - Bad Request (Parent Not Found)",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "// Test 1: Check HTTP Status",
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "",
+                      "// Test 2: Flexible Error Check",
+                      "pm.test(\"Response contains error details\", function () {",
+                      "    var json = pm.response.json();",
+                      "    var isStandard = json.errors !== undefined;",
+                      "    var isCustom = json.message !== undefined;",
+                      "    pm.expect(isStandard || isCustom).to.be.true;",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"categoryName\": \"Fail Parent\",\n  \"parentCategoryId\": 9999\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/categories",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "categories"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Update Category (3 Cases)",
+          "item": [
+            {
+              "name": "PUT Update - Success",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {",
+                      "    pm.response.to.have.status(200);",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"categoryName\": \"Updated Name\",\n  \"categoryDesciption\": \"Updated Description\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/categories/{{createdCategoryId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "categories",
+                    "{{createdCategoryId}}"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "PUT Update - Bad Request (Empty Name)",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "",
+                      "pm.test(\"Response contains error details\", function () {",
+                      "    var json = pm.response.json();",
+                      "    var isStandard = json.errors !== undefined;",
+                      "    var isCustom = json.message !== undefined;",
+                      "    pm.expect(isStandard || isCustom).to.be.true;",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"categoryName\": \"\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/categories/{{createdCategoryId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "categories",
+                    "{{createdCategoryId}}"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "PUT Update - Bad Request (Parent is Self)",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "",
+                      "pm.test(\"Response contains error details\", function () {",
+                      "    var json = pm.response.json();",
+                      "    var isStandard = json.errors !== undefined;",
+                      "    var isCustom = json.message !== undefined;",
+                      "    pm.expect(isStandard || isCustom).to.be.true;",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"categoryName\": \"Loop Parent\",\n  \"parentCategoryId\": {{createdCategoryId}}\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/categories/{{createdCategoryId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "categories",
+                    "{{createdCategoryId}}"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Delete Category (3 Cases)",
+          "item": [
+            {
+              "name": "DELETE - Bad Request (Constraint)",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "",
+                      "pm.test(\"Response contains error details\", function () {",
+                      "    var json = pm.response.json();",
+                      "    var isStandard = json.errors !== undefined;",
+                      "    var isCustom = json.message !== undefined;",
+                      "    pm.expect(isStandard || isCustom).to.be.true;",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/categories/4",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "categories",
+                    "4"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "DELETE - Not Found",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 404\", function () {",
+                      "    pm.response.to.have.status(404);",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/categories/9999",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "categories",
+                    "9999"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "DELETE - Success",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {",
+                      "    pm.response.to.have.status(200);",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/categories/{{createdCategoryId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "categories",
+                    "{{createdCategoryId}}"
+                  ]
+                }
+              }
+            }
+          ]
         }
-    ]
+      ]
+    }
+  ]
 }
